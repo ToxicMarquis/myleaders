@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лучшие суворовцы 2025</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Экран авторизации -->
+    <div id="loginScreen" class="screen">
+        <div class="login-container">
+            <div class="logo">
+                <h1>🎖️ Лучшие суворовцы 2025</h1>
+                <p>Система оценки достижений</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">Позывной / Логин:</label>
+                    <input type="text" id="username" name="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль:</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full-width">Войти</button>
+                <div id="loginError" class="error-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Основной экран -->
+    <div id="mainScreen" class="screen hidden">
+        <header class="header">
+            <div class="header-content">
+                <h1>🏆 Лучшие суворовцы 2025</h1>
+                <div class="user-info">
+                    <span id="currentUser"></span>
+                    <button id="logoutBtn" class="btn btn--secondary">Выйти</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Меню разработчика -->
+        <div id="developerMenu" class="developer-menu hidden">
+            <div class="dev-panel">
+                <div class="dev-icon">⚙️</div>
+                <h3>Панель разработчика</h3>
+                <div class="dev-controls">
+                    <button id="viewPasswordsBtn" class="btn btn-dev">Просмотр паролей</button>
+                    <button id="bulkAddBtn" class="btn btn-dev">Массовое добавление</button>
+                    <button id="systemSettingsBtn" class="btn btn-dev">Настройки системы</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Общая статистика -->
+        <div class="statistics">
+            <div class="stat-card">
+                <div class="stat-value" id="totalCadets">0</div>
+                <div class="stat-label">Всего курсантов</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="bestPlatoon">-</div>
+                <div class="stat-label">Лучший взвод</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgScore">0.0</div>
+                <div class="stat-label">Средний балл ФП</div>
+            </div>
+        </div>
+
+        <!-- Фильтры и поиск -->
+        <div class="controls">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Поиск по ФИО..." class="search-input">
+            </div>
+            <div class="filter-container">
+                <button class="filter-btn active" data-platoon="all">Все взводы</button>
+                <button class="filter-btn platoon-31" data-platoon="31">31 взвод</button>
+                <button class="filter-btn platoon-32" data-platoon="32">32 взвод</button>
+                <button class="filter-btn platoon-33" data-platoon="33">33 взвод</button>
+            </div>
+            <div class="admin-controls" id="adminControls" style="display: none;">
+                <button id="addCadetBtn" class="btn btn--secondary">➕ Добавить</button>
+                <button id="exportBtn" class="btn btn--secondary">📤 Экспорт</button>
+                <button id="importBtn" class="btn btn--secondary">📥 Импорт</button>
+            </div>
+        </div>
+
+        <!-- Лидерная таблица -->
+        <div class="leaderboard">
+            <div id="cadetsList" class="cadets-list"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно профиля -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="profileTitle">Профиль курсанта</h2>
+                <span class="close" id="closeProfile">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="profile-banner" id="profileBanner">
+                    <div class="profile-avatar-container">
+                        <div class="profile-avatar" id="profileAvatar"></div>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <div class="profile-details">
+                        <div class="detail-item">
+                            <label>ФИО:</label>
+                            <span id="profileFio"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Должность:</label>
+                            <span id="profilePosition"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Дата рождения:</label>
+                            <span id="profileBirthdate"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Взвод:</label>
+                            <span id="profilePlatoon"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Результаты ФП:</label>
+                            <span id="profileFpScore"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Средний балл:</label>
+                            <span id="profileAvgScore"></span>
+                        </div>
+                    </div>
+                    <div class="profile-achievements">
+                        <div class="achievements-section">
+                            <h3>🏆 Поощрения</h3>
+                            <div id="profileAwards" class="awards-list"></div>
+                        </div>
+                        <div class="penalties-section">
+                            <h3>⚠️ Взыскания</h3>
+                            <div id="profilePenalties" class="penalties-list"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button id="editProfileBtn" class="btn btn--primary hidden">Редактировать</button>
+                    <button id="changeAvatarBtn" class="btn btn--secondary hidden">Сменить аватар</button>
+                    <button id="changeBannerBtn" class="btn btn--secondary hidden">Сменить баннер</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="editTitle">Редактирование профиля</h2>
+                <span class="close" id="closeEdit">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" class="edit-form">
+                    <div class="form-group">
+                        <label for="editFio">ФИО:</label>
+                        <input type="text" id="editFio" name="fio" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPlatoon">Взвод:</label>
+                        <select id="editPlatoon" name="platoon" class="form-control" required>
+                            <option value="31">31</option>
+                            <option value="32">32</option>
+                            <option value="33">33</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editRank">Звание:</label>
+                        <select id="editRank" name="rank" class="form-control" required>
+                            <option value="suvorov">Суворовец</option>
+                            <option value="ml_vserg">Младший вице-сержант</option>
+                            <option value="vserg">Вице-сержант</option>
+                            <option value="st_vserg">Старший вице-сержант</option>
+                            <option value="vstarshina">Вице-старшина</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPosition">Должность:</label>
+                        <input type="text" id="editPosition" name="position" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editBirthdate">Дата рождения:</label>
+                        <input type="date" id="editBirthdate" name="birthdate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editFpScore">Результаты ФП (0-100):</label>
+                        <input type="number" id="editFpScore" name="fp_score" min="0" max="100" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAvgScore">Средний балл (0-5):</label>
+                        <input type="number" id="editAvgScore" name="avg_score" min="0" max="5" step="0.1" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAwards">Поощрения (через запятую):</label>
+                        <textarea id="editAwards" name="awards" rows="3" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPenalties">Взыскания (через запятую):</label>
+                        <textarea id="editPenalties" name="penalties" rows="3" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editBadges">Значки отличия:</label>
+                        <div class="badges-selection">
+                            <label><input type="checkbox" name="badges" value="zkv"> ЗКВ</label>
+                            <label><input type="checkbox" name="badges" value="ko"> КО</label>
+                            <label><input type="checkbox" name="badges" value="developer"> Разработчик</label>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn--primary">Сохранить</button>
+                        <button type="button" id="cancelEdit" class="btn btn--secondary">Отмена</button>
+                        <button type="button" id="deleteCadet" class="btn btn-danger hidden">Удалить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно загрузки изображения -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="imageTitle">Загрузка изображения</h2>
+                <span class="close" id="closeImage">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="image-upload">
+                    <input type="file" id="imageInput" accept="image/*" class="form-control">
+                    <div class="image-preview">
+                        <img id="imagePreview" src="" alt="Предпросмотр" style="display: none;">
+                        <div id="imagePlaceholder" class="image-placeholder">Выберите изображение</div>
+                    </div>
+                    <div class="image-actions">
+                        <button id="saveImage" class="btn btn--primary">Сохранить</button>
+                        <button id="cancelImage" class="btn btn--secondary">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

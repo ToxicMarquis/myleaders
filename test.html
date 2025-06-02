@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест data.js</title>
+</head>
+<body>
+    <h1>Тест загрузки data.js</h1>
+    <pre id="output"></pre>
+
+    <script src="data.js"></script>
+    <script>
+        document.getElementById('output').textContent = 
+            `Загружено ${initialData.length} аккаунтов:
+             - ${initialData[0].callsign} (${initialData[0].role})
+             - ${initialData[1].callsign} (${initialData[1].role})
+             - ${initialData[2].callsign} (суворовец)
+             ...`;
+    </script>
+</body>
+</html>
