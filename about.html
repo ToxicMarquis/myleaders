@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О системе | Лидерная таблица суворовцев</title>
+    <meta name="description" content="Информация о системе управления лидерной таблицей суворовцев">
+    <meta name="author" content="Суворовское военное училище">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="header-title">🏆 Лидерная таблица суворовцев</h1>
+                <p class="header-subtitle">Результаты физической подготовки и академические достижения</p>
+                <nav class="main-nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link">Главная</a></li>
+                        <li><a href="statistics.html" class="nav-link">Статистика</a></li>
+                        <li><a href="about.html" class="nav-link active">О системе</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="user-info" id="userInfo">Не авторизован</div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Описание системы -->
+            <section class="intro-section">
+                <h2>О системе лидерной таблицы</h2>
+                <p class="intro-text">
+                    Система лидерной таблицы суворовцев разработана для эффективного отслеживания и управления 
+                    данными о курсантах Суворовского военного училища. Система позволяет отслеживать результаты 
+                    физической подготовки, академические достижения, поощрения и взыскания.
+                </p>
+            </section>
+
+            <!-- Особенности системы -->
+            <section class="table-section mb-3">
+                <h2>Основные возможности</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>👥 Управление данными</h3>
+                        <p>Полная информация о каждом суворовце: персональные данные, результаты ФП, средний балл аттестата</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🏆 Рейтинговая система</h3>
+                        <p>Автоматическое ранжирование по результатам физической подготовки с возможностью фильтрации по взводам</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📊 Статистика</h3>
+                        <p>Подробная аналитика по взводам, распределение результатов, топ-10 лучших курсантов</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔐 Безопасность</h3>
+                        <p>Система авторизации с разграничением прав доступа для администраторов и обычных пользователей</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📱 Адаптивность</h3>
+                        <p>Корректное отображение на всех устройствах: компьютерах, планшетах и мобильных телефонах</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>💾 Локальное хранение</h3>
+                        <p>Все данные сохраняются локально в браузере, обеспечивая автономную работу системы</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Технические характеристики -->
+            <section class="table-section mb-3">
+                <h2>Технические характеристики</h2>
+                <div class="tech-specs">
+                    <div class="spec-item">
+                        <div class="spec-label">Технологии:</div>
+                        <div class="spec-value">HTML5, CSS3, JavaScript (ES6+)</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Совместимость:</div>
+                        <div class="spec-value">Все современные браузеры (Chrome, Firefox, Safari, Edge)</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Хранение данных:</div>
+                        <div class="spec-value">localStorage (локальное хранение браузера)</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Система авторизации:</div>
+                        <div class="spec-value">sessionStorage с поддержкой ролей</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Экспорт данных:</div>
+                        <div class="spec-value">JSON формат с возможностью загрузки файла</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Размер системы:</div>
+                        <div class="spec-value">Менее 500 KB (включая все файлы)</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Учетные данные -->
+            <section class="table-section mb-3">
+                <h2>Учетные данные для входа</h2>
+                <div class="credentials-container">
+                    <div class="credential-card admin-card">
+                        <h3>🔧 Администратор</h3>
+                        <div class="credential-item">
+                            <span class="credential-label">Логин:</span>
+                            <span class="credential-value">admin</span>
+                        </div>
+                        <div class="credential-item">
+                            <span class="credential-label">Пароль:</span>
+                            <span class="credential-value">suvorov2024</span>
+                        </div>
+                        <div class="credential-description">
+                            Полный доступ: просмотр, редактирование, добавление, удаление данных, экспорт/импорт
+                        </div>
+                    </div>
+                    
+                    <div class="credential-card user-card">
+                        <h3>👁️ Пользователь</h3>
+                        <div class="credential-item">
+                            <span class="credential-label">Логин:</span>
+                            <span class="credential-value">user</span>
+                        </div>
+                        <div class="credential-item">
+                            <span class="credential-label">Пароль:</span>
+                            <span class="credential-value">view123</span>
+                        </div>
+                        <div class="credential-description">
+                            Ограниченный доступ: только просмотр данных и статистики
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Инструкции по использованию -->
+            <section class="table-section mb-3">
+                <h2>Инструкции по использованию</h2>
+                <div class="instructions">
+                    <div class="instruction-item">
+                        <h4>1. Авторизация</h4>
+                        <p>Войдите в систему, используя предоставленные учетные данные. Администраторы получают полный доступ к функциям редактирования.</p>
+                    </div>
+                    
+                    <div class="instruction-item">
+                        <h4>2. Просмотр данных</h4>
+                        <p>Основная таблица отображает всех суворовцев, отсортированных по результатам ФП. Используйте поиск и фильтры для быстрого нахождения нужных данных.</p>
+                    </div>
+                    
+                    <div class="instruction-item">
+                        <h4>3. Детальная информация</h4>
+                        <p>Нажмите кнопку "Подробнее" для просмотра полной информации о суворовце, включая поощрения и взыскания.</p>
+                    </div>
+                    
+                    <div class="instruction-item">
+                        <h4>4. Редактирование (только для администраторов)</h4>
+                        <p>Добавляйте новых суворовцев, редактируйте существующие записи или удаляйте их при необходимости.</p>
+                    </div>
+                    
+                    <div class="instruction-item">
+                        <h4>5. Экспорт/импорт данных</h4>
+                        <p>Экспортируйте данные в формате JSON для создания резервных копий или импортируйте обновленные данные.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Версия и разработчик -->
+            <section class="table-section">
+                <h2>Информация о версии</h2>
+                <div class="version-info">
+                    <div class="version-item">
+                        <span class="version-label">Версия системы:</span>
+                        <span class="version-value">1.0.0</span>
+                    </div>
+                    <div class="version-item">
+                        <span class="version-label">Дата выпуска:</span>
+                        <span class="version-value">Декабрь 2024</span>
+                    </div>
+                    <div class="version-item">
+                        <span class="version-label">Разработано для:</span>
+                        <span class="version-value">Суворовское военное училище</span>
+                    </div>
+                    <div class="version-item">
+                        <span class="version-label">Статус:</span>
+                        <span class="version-value">Стабильная версия</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Суворовское военное училище. Все права защищены.</p>
+            <p>Версия системы: 1.0.0</p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        // Проверка авторизации и обновление UI
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+        
+        function checkAuth() {
+            const saved = sessionStorage.getItem('currentUser');
+            if (saved) {
+                try {
+                    const currentUser = JSON.parse(saved);
+                    updateAuthUI(currentUser);
+                } catch (error) {
+                    console.error('Ошибка при восстановлении авторизации:', error);
+                    sessionStorage.removeItem('currentUser');
+                }
+            }
+        }
+        
+        function updateAuthUI(currentUser) {
+            const userInfo = document.getElementById('userInfo');
+            
+            if (currentUser) {
+                const roleText = currentUser.role === 'admin' ? 'Администратор' : 'Пользователь';
+                userInfo.textContent = `${roleText}: ${currentUser.username}`;
+            } else {
+                userInfo.textContent = 'Не авторизован';
+            }
+        }
+    </script>
+
+    <style>
+        /* Дополнительные стили для страницы "О системе" */
+        .intro-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .feature-card {
+            background: var(--secondary-bg);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-orange);
+        }
+
+        .feature-card h3 {
+            color: var(--accent-orange);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .tech-specs {
+            background: var(--secondary-bg);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            color: var(--accent-orange);
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-right: 20px;
+        }
+
+        .spec-value {
+            color: var(--text-primary);
+            text-align: right;
+        }
+
+        .credentials-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .credential-card {
+            background: var(--secondary-bg);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .admin-card {
+            border-color: var(--accent-orange);
+        }
+
+        .user-card {
+            border-color: var(--success-color);
+        }
+
+        .credential-card h3 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .admin-card h3 {
+            color: var(--accent-orange);
+        }
+
+        .user-card h3 {
+            color: var(--success-color);
+        }
+
+        .credential-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .credential-label {
+            color: var(--text-secondary);
+            font-weight: bold;
+        }
+
+        .credential-value {
+            color: var(--text-primary);
+            font-family: monospace;
+            background: var(--tertiary-bg);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .credential-description {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .instructions {
+            background: var(--secondary-bg);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .instruction-item {
+            margin-bottom: 25px;
+        }
+
+        .instruction-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .instruction-item h4 {
+            color: var(--accent-orange);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .instruction-item p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .version-info {
+            background: var(--secondary-bg);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .version-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .version-item:last-child {
+            border-bottom: none;
+        }
+
+        .version-label {
+            color: var(--accent-orange);
+            font-weight: bold;
+        }
+
+        .version-value {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .spec-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .spec-label {
+                margin-bottom: 5px;
+            }
+
+            .spec-value {
+                text-align: left;
+            }
+
+            .credential-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .credential-value {
+                margin-top: 5px;
+            }
+
+            .version-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .version-value {
+                margin-top: 5px;
+            }
+        }
+    </style>
+</body>
+</html>
