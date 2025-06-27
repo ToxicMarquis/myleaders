@@ -1,258 +1,80 @@
+
 <!DOCTYPE html>
-<html lang="ru">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unicorn7Love Fun Club</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>Unicorn7Love Fun Club</title>
+<link rel='stylesheet' href='css/style.css'>
+<script src='https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js'></script>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <img src="logo.png" alt="Unicorn7Love Fun Club" class="logo-img">
-                <span>Unicorn7Love Fun Club</span>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">Главная</a></li>
-                <li><a href="#statistics" class="nav-link">Статистика</a></li>
-                <li><a href="#admins" class="nav-link">Администрация</a></li>
-                <li><button id="theme-toggle" class="theme-btn">
-                    <i class="fas fa-moon"></i>
-                </button></li>
-            </ul>
-        </div>
-    </nav>
-
-    <main>
-        <!-- Главная страница -->
-        <section id="home" class="section active">
-            <div class="hero">
-                <div class="hero-content">
-                    <h1>Добро пожаловать в Unicorn7Love Fun Club</h1>
-                    <p>Шахматный клуб, покоряющий вершины Lichess Bundesliga</p>
-                    <div class="social-links">
-                        <a href="https://t.me/Unicorn7Love" target="_blank">
-                            <i class="fab fa-telegram"></i> Telegram
-                        </a>
-                        <a href="#" target="_blank">
-                            <i class="fab fa-twitch"></i> Twitch
-                        </a>
-                        <a href="#" target="_blank">
-                            <i class="fab fa-youtube"></i> YouTube
-                        </a>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <img src="logo.png" alt="Unicorn7Love Fun Club">
-                </div>
-            </div>
-
-            <div class="achievements">
-                <h2>Наши достижения</h2>
-                <div class="achievement-cards">
-                    <div class="achievement-card">
-                        <i class="fas fa-trophy"></i>
-                        <h3>Участие в Bundesliga</h3>
-                        <p>Активное участие в крупнейшей лиге Lichess</p>
-                    </div>
-                    <div class="achievement-card">
-                        <i class="fas fa-users"></i>
-                        <h3>Сильная команда</h3>
-                        <p>7 активных игроков различного уровня</p>
-                    </div>
-                    <div class="achievement-card">
-                        <i class="fas fa-chart-line"></i>
-                        <h3>Постоянный рост</h3>
-                        <p>Улучшение результатов от турнира к турниру</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Статистика -->
-        <section id="statistics" class="section">
-            <div class="stats-header">
-                <h2>Статистика Bundesliga</h2>
-                <div class="stats-controls">
-                    <select id="sortBy">
-                        <option value="total_score">По очкам</option>
-                        <option value="avg_performance">По ср. перформансу</option>
-                        <option value="tournaments_count">По кол-ву турниров</option>
-                    </select>
-                    <input type="text" id="searchPlayer" placeholder="Поиск игрока...">
-                </div>
-            </div>
-
-            <!-- Топ-5 игроков -->
-            <div class="top-players">
-                <h3>Топ-5 игроков клуба</h3>
-                <div class="top-players-grid">
-                    <div class="top-player diamond" data-rank="1">
-                        <div class="player-rank">1</div>
-                        <div class="player-info">
-                            <div class="player-name">Загрузка...</div>
-                            <div class="player-stats">Загрузка...</div>
-                        </div>
-                    </div>
-                    <div class="top-player platinum" data-rank="2">
-                        <div class="player-rank">2</div>
-                        <div class="player-info">
-                            <div class="player-name">Загрузка...</div>
-                            <div class="player-stats">Загрузка...</div>
-                        </div>
-                    </div>
-                    <div class="top-player gold" data-rank="3">
-                        <div class="player-rank">3</div>
-                        <div class="player-info">
-                            <div class="player-name">Загрузка...</div>
-                            <div class="player-stats">Загрузка...</div>
-                        </div>
-                    </div>
-                    <div class="top-player silver" data-rank="4">
-                        <div class="player-rank">4</div>
-                        <div class="player-info">
-                            <div class="player-name">Загрузка...</div>
-                            <div class="player-stats">Загрузка...</div>
-                        </div>
-                    </div>
-                    <div class="top-player bronze" data-rank="5">
-                        <div class="player-rank">5</div>
-                        <div class="player-info">
-                            <div class="player-name">Загрузка...</div>
-                            <div class="player-stats">Загрузка...</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Таблица игроков -->
-            <div class="players-table-container">
-                <table class="players-table">
-                    <thead>
-                        <tr>
-                            <th>Игрок</th>
-                            <th>Очки</th>
-                            <th>Ср. перформанс</th>
-                            <th>Макс. перформанс</th>
-                            <th>Ср. рейтинг</th>
-                            <th>Макс. рейтинг</th>
-                            <th>Турниров</th>
-                            <th>Первый турнир</th>
-                        </tr>
-                    </thead>
-                    <tbody id="playersTable">
-                        <!-- Данные загружаются динамически -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Пагинация -->
-            <div class="pagination">
-                <button id="prevPage" class="page-btn">← Предыдущая</button>
-                <span id="pageInfo">Страница 1 из 1</span>
-                <button id="nextPage" class="page-btn">Следующая →</button>
-            </div>
-
-            <!-- Топ команд-противников -->
-            <div class="opponent-teams">
-                <h3>Топ-5 команд-противников</h3>
-                <div class="opponent-teams-list">
-                    <div class="opponent-team">
-                        <span class="team-name">ajedrez--las-higueras-</span>
-                        <span class="team-count">18 игроков</span>
-                    </div>
-                    <div class="opponent-team">
-                        <span class="team-name">rLAQU1ap</span>
-                        <span class="team-count">12 игроков</span>
-                    </div>
-                    <div class="opponent-team">
-                        <span class="team-name">sische-fan</span>
-                        <span class="team-count">12 игроков</span>
-                    </div>
-                    <div class="opponent-team">
-                        <span class="team-name">good-chess-amateurs</span>
-                        <span class="team-count">11 игроков</span>
-                    </div>
-                    <div class="opponent-team">
-                        <span class="team-name">schach-club-kreuzberg-e-v</span>
-                        <span class="team-count">10 игроков</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Администрация -->
-        <section id="admins" class="section">
-            <h2>Администрация клуба</h2>
-            <div class="admin-cards">
-                <div class="admin-card">
-                    <div class="admin-avatar">
-                        <img src="checkcov.jpg" alt="IM Чеклецов Илья">
-                    </div>
-                    <div class="admin-info">
-                        <h3>IM Чеклецов Илья</h3>
-                        <p class="admin-role">Владелец клуба</p>
-                        <div class="admin-ratings">
-                            <a href="https://ratings.fide.com/profile/24177156" target="_blank">
-                                <i class="fas fa-globe"></i> ФИДЕ рейтинг
-                            </a>
-                            <a href="https://ratings.ruchess.ru/people/148" target="_blank">
-                                <i class="fas fa-flag"></i> ФШР рейтинг
-                            </a>
-                            <a href="https://lichess.org/@/Unicorn7Love" target="_blank">
-                                <i class="fas fa-chess"></i> Lichess
-                            </a>
-                        </div>
-                        <p class="admin-description">
-                            Опытный международный мастер с многолетним стажем. Основатель и идейный вдохновитель клуба Unicorn7Love Fun Club. Активно участвует в развитии шахматного движения и подготовке молодых игроков.
-                        </p>
-                        <div class="admin-contact">
-                            <a href="https://t.me/Unicorn7Love" target="_blank">
-                                <i class="fab fa-telegram"></i> Telegram
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="admin-card">
-                    <div class="admin-avatar">
-                        <img src="rasputin.jpg" alt="AIM Распутин Марк">
-                    </div>
-                    <div class="admin-info">
-                        <h3>AIM Распутин Марк</h3>
-                        <p class="admin-role">Администратор</p>
-                        <div class="admin-ratings">
-                            <a href="https://ratings.fide.com/profile/55865798" target="_blank">
-                                <i class="fas fa-globe"></i> ФИДЕ рейтинг
-                            </a>
-                            <a href="https://ratings.ruchess.ru/people/128626" target="_blank">
-                                <i class="fas fa-flag"></i> ФШР рейтинг
-                            </a>
-                        </div>
-                        <p class="admin-description">
-                            Талантливый кандидат в международные мастера. Отвечает за техническую сторону работы клуба и организацию турниров. Помогает в развитии онлайн-присутствия команды.
-                        </p>
-                        <div class="admin-contact">
-                            <i class="fas fa-envelope"></i> rasputin@example.com
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Модальное окно профиля игрока -->
-    <div id="playerModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div id="playerProfile">
-                <!-- Профиль игрока загружается динамически -->
-            </div>
-        </div>
+<header>
+  <img src='img/banner.jpg' id='club-banner' alt='Banner'>
+  <button id='theme-toggle'>🌓</button>
+</header>
+<section id='club-description'>
+  <p>Международный мастер по шахматам Илья Чеклецов и Команда Единомышленников ежедневно трудятся над созданием лучшего русскоязычного шахматного сообщества, целью которого является продвижение и популяризация шахмат.</p>
+</section>
+<nav>
+  <a href='#stats'>Statistics</a>
+  <a href='#admins'>Admins</a>
+</nav>
+<main>
+<section id='stats'>
+  <h2>Club Bundesliga Statistics</h2>
+  <div id='top5' class='top5-column'></div>
+  <div class='controls'>
+    <label>Sort by:</label>
+    <select id='sort-by'>
+      <option value='points'>Total Points</option>
+      <option value='avgPerf'>Average Performance</option>
+      <option value='tournaments'>Tournaments Played</option>
+    </select>
+    <input id='search' type='search' placeholder='Search player…'>
+  </div>
+  <table id='players-table'>
+    <thead><tr><th>#</th><th>Username</th><th>Total Points</th><th>Avg. Perf</th><th>Max Perf</th><th>Avg. Rating</th><th>Max Rating</th><th>Tournaments</th><th>First Tournament</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <div id='pagination'></div>
+  <h3>League History</h3>
+  <canvas id='leagueChart'></canvas>
+  <h3>Team Placements</h3>
+  <canvas id='rankChart'></canvas>
+</section>
+<section id='admins'>
+  <h2>Club Administrators</h2>
+  <div class='admin-cards'>
+    <div class='admin-card'>
+      <img src='img/avatar_ilja.jpg' class='avatar' alt='Ilya'>
+      <h3>IM Илья Чеклецов</h3>
+      <p class='role'>Club Owner</p>
+      <ul class='links'>
+        <li><a href='https://ratings.fide.com/profile/24177156' target='_blank'>FIDE rating</a></li>
+        <li><a href='https://ratings.ruchess.ru/people/148' target='_blank'>FSHR rating</a></li>
+        <li><a href='https://lichess.org/@/Unicorn7Love' target='_blank'>Lichess</a></li>
+        <li><a href='https://t.me/Unicorn7Love' target='_blank'>Telegram</a></li>
+      </ul>
+      <p class='bio'>Placeholder bio about Ilya.</p>
     </div>
-
-    <script src="app.js"></script>
+    <div class='admin-card'>
+      <img src='img/avatar_mark.jpg' class='avatar' alt='Mark'>
+      <h3>AIM Распутин Марк</h3>
+      <p class='role'>Co-Administrator</p>
+      <ul class='links'>
+        <li><a href='https://ratings.fide.com/profile/55865798' target='_blank'>FIDE rating</a></li>
+        <li><a href='https://ratings.ruchess.ru/people/128626' target='_blank'>FSHR rating</a></li>
+        <li><a href='https://lichess.org/@/ModerMark' target='_blank'>Lichess</a></li>
+        <li><a href='https://t.me/mrmarqu1s' target='_blank'>Telegram</a></li>
+      </ul>
+      <p class='bio'>Placeholder bio about Mark.</p>
+    </div>
+  </div>
+</section>
+</main>
+<footer>&copy; 2025 Unicorn7Love Fun Club</footer>
+<script src='js/app.js'></script>
 </body>
 </html>
