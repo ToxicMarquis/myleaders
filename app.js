@@ -54,7 +54,7 @@ const playersPerPage = 10;
 const teamName = 'unicorn7love-fun-club';
 
 // URL для загрузки файлов из GitHub (замените на ваш репозиторий)
-const githubBaseUrl = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/tournaments/';
+const githubBaseUrl = 'https://raw.githubusercontent.com/toxicmarquis/uni7club/main/tournaments/';
 
 // Список файлов турниров (можно автоматизировать через GitHub API)
 const tournamentFiles = [
