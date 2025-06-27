@@ -1,7 +1,6 @@
 // Настройка темной/светлой темы
 const themeToggle = document.getElementById('theme-toggle');
 
-// Применяем сохраненную тему при загрузке
 if (localStorage.getItem('theme')) {
     document.documentElement.setAttribute('data-theme', localStorage.getItem('theme'));
     updateThemeIcon();
@@ -31,70 +30,117 @@ const navLinks = document.querySelectorAll('.nav-link');
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
-
-        // Убираем активный класс у всех секций
+        
         document.querySelectorAll('.section').forEach(section => {
             section.classList.remove('active');
         });
-
-        // Показываем нужную секцию
+        
         const targetId = link.getAttribute('href').substring(1);
         document.getElementById(targetId).classList.add('active');
-
-        // Обновляем активную ссылку в навигации
+        
         navLinks.forEach(navLink => navLink.classList.remove('active'));
         link.classList.add('active');
     });
 });
 
-// Переменные для работы с данными
+// Конфигурация
 let allPlayerData = [];
 let currentPage = 1;
 const playersPerPage = 10;
 const teamName = 'unicorn7love-fun-club';
 
-// URL для загрузки файлов из GitHub (замените на ваш репозиторий)
-const githubBaseUrl = 'https://raw.githubusercontent.com/toxicmarquis/uni7club/main/tournaments/';
+// Получаем токен из переменной окружения
+const LICHESS_TOKEN = window.LICHESS_API_TOKEN || '';
 
-// Список файлов турниров (можно автоматизировать через GitHub API)
-const tournamentFiles = [
-    'lichess_tournament_2025.06.26_eeO2WrZ0_lichess-liga-5b.csv'
-    // Добавьте другие файлы здесь
-];
+// Настройки GitHub API
+const GITHUB_OWNER = 'toxicmarquis';  // Замените на ваш username
+const GITHUB_REPO = 'uni7club';      // Замените на название вашего репозитория
+const TOURNAMENTS_FOLDER = 'tournaments';
+
+// Функция для получения списка CSV файлов из GitHub
+async function getTournamentFiles() {
+    try {
+        const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${TOURNAMENTS_FOLDER}`;
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const files = await response.json();
+        
+        // Фильтруем только CSV файлы, начинающиеся с lichess_tournament_
+        const csvFiles = files
+            .filter(file => 
+                file.type === 'file' && 
+                file.name.startsWith('lichess_tournament_') && 
+                file.name.endsWith('.csv')
+            )
+            .map(file => ({
+                name: file.name,
+                downloadUrl: file.download_url
+            }));
+            
+        console.log('Найдены CSV файлы:', csvFiles);
+        return csvFiles;
+        
+    } catch (error) {
+        console.error('Ошибка при получении списка файлов:', error);
+        // Fallback на ручной список
+        return [{
+            name: 'lichess_tournament_2025.06.26_eeO2WrZ0_lichess-liga-5b.csv',
+            downloadUrl: `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${TOURNAMENTS_FOLDER}/lichess_tournament_2025.06.26_eeO2WrZ0_lichess-liga-5b.csv`
+        }];
+    }
+}
 
 // Функция для загрузки CSV файла
-async function loadCSV(filename) {
+async function loadCSV(fileInfo) {
     try {
-        // Для локального тестирования используем локальные файлы
-        const response = await fetch(filename);
+        const response = await fetch(fileInfo.downloadUrl);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const text = await response.text();
-
+        
         // Парсим CSV
         const lines = text.trim().split('\n');
-        const headers = lines[0].split(',');
-
+        const headers = lines[0].split(',').map(h => h.trim());
+        
         const data = [];
         for (let i = 1; i < lines.length; i++) {
             const values = lines[i].split(',');
             const row = {};
             headers.forEach((header, index) => {
-                row[header.trim()] = values[index] ? values[index].trim() : '';
+                row[header] = values[index] ? values[index].trim() : '';
             });
             data.push(row);
         }
-
-        // Извлекаем дату из имени файла
-        const dateMatch = filename.match(/(\d{4})\.(\d{2})\.(\d{2})/);
-        const tournamentDate = dateMatch ? `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]}` : new Date().toISOString().split('T')[0];
-
-        // Добавляем дату турнира к каждой записи
+        
+        // Извлекаем дату и лигу из имени файла
+        const dateMatch = fileInfo.name.match(/(\d{4})\.(\d{2})\.(\d{2})/);
+        const leagueMatch = fileInfo.name.match(/liga-(\d+[a-z]?)/i);
+        
+        const tournamentDate = dateMatch ? 
+            `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]}` : 
+            new Date().toISOString().split('T')[0];
+            
+        const league = leagueMatch ? leagueMatch[1] : 'unknown';
+        
+        // Добавляем метаданные к каждой записи
         data.forEach(row => {
             row.tournament_date = tournamentDate;
+            row.league = league;
+            row.filename = fileInfo.name;
         });
-
+        
+        console.log(`Загружен файл ${fileInfo.name}: ${data.length} записей`);
         return data;
+        
     } catch (error) {
-        console.error('Ошибка при загрузке файла:', filename, error);
+        console.error('Ошибка при загрузке файла:', fileInfo.name, error);
         return [];
     }
 }
@@ -102,10 +148,10 @@ async function loadCSV(filename) {
 // Функция для агрегации данных игроков
 function aggregatePlayerData(rawData) {
     const playerStats = {};
-
+    
     rawData.forEach(row => {
         if (row.Team !== teamName) return;
-
+        
         const username = row.Username;
         if (!playerStats[username]) {
             playerStats[username] = {
@@ -114,56 +160,58 @@ function aggregatePlayerData(rawData) {
                 performances: [],
                 ratings: [],
                 tournaments: [],
+                leagues: [],
                 total_score: 0,
                 tournaments_count: 0
             };
         }
-
+        
         const player = playerStats[username];
         const score = parseInt(row.Score) || 0;
         const performance = parseFloat(row.Performance) || 0;
         const rating = parseInt(row.Rating) || 0;
-
+        
         player.scores.push(score);
         player.total_score += score;
         player.tournaments.push(row.tournament_date);
+        player.leagues.push(row.league);
         player.tournaments_count++;
-
+        
         if (performance > 0) {
             player.performances.push(performance);
         }
-
+        
         if (rating > 0) {
             player.ratings.push(rating);
         }
     });
-
+    
     // Вычисляем агрегированные статистики
     const result = Object.values(playerStats).map(player => {
         const avgPerformance = player.performances.length > 0 
             ? Math.round(player.performances.reduce((a, b) => a + b, 0) / player.performances.length)
             : 0;
-
+            
         const maxPerformance = player.performances.length > 0 
             ? Math.max(...player.performances) 
             : 0;
-
+            
         const avgRating = player.ratings.length > 0
             ? Math.round(player.ratings.reduce((a, b) => a + b, 0) / player.ratings.length)
             : 0;
-
+            
         const maxRating = player.ratings.length > 0
             ? Math.max(...player.ratings)
             : 0;
-
+            
         const maxScore = player.scores.length > 0
             ? Math.max(...player.scores)
             : 0;
-
+            
         const firstTournament = player.tournaments.length > 0
             ? player.tournaments.sort()[0]
             : '-';
-
+            
         return {
             ...player,
             avg_performance: avgPerformance,
@@ -174,24 +222,19 @@ function aggregatePlayerData(rawData) {
             first_tournament: firstTournament
         };
     });
-
+    
     return result;
 }
 
-// Функция сортировки игроков по критериям топ-5
+// Функция сортировки игроков для топ-5
 function sortPlayersForTop5(players) {
     return players.sort((a, b) => {
-        // Первый критерий: сумма очков
         if (b.total_score !== a.total_score) {
             return b.total_score - a.total_score;
         }
-
-        // Второй критерий: количество турниров
         if (b.tournaments_count !== a.tournaments_count) {
             return b.tournaments_count - a.tournaments_count;
         }
-
-        // Третий критерий: средний перформанс
         return b.avg_performance - a.avg_performance;
     });
 }
@@ -200,16 +243,23 @@ function sortPlayersForTop5(players) {
 function renderTop5Players(players) {
     const sortedPlayers = sortPlayersForTop5([...players]);
     const top5 = sortedPlayers.slice(0, 5);
-
+    
     top5.forEach((player, index) => {
         const rankElement = document.querySelector(`.top-player[data-rank="${index + 1}"]`);
         if (rankElement) {
-            rankElement.querySelector('.player-name').textContent = player.username;
-            rankElement.querySelector('.avg-perf').textContent = player.avg_performance;
-            rankElement.querySelector('.avg-rating').textContent = player.avg_rating;
-            rankElement.querySelector('.total-score').textContent = player.total_score;
-            rankElement.querySelector('.tournaments').textContent = player.tournaments_count;
-            rankElement.querySelector('.first-date').textContent = player.first_tournament;
+            const nameElement = rankElement.querySelector('.player-name');
+            const avgPerfElement = rankElement.querySelector('.avg-perf');
+            const avgRatingElement = rankElement.querySelector('.avg-rating');
+            const totalScoreElement = rankElement.querySelector('.total-score');
+            const tournamentsElement = rankElement.querySelector('.tournaments');
+            const firstDateElement = rankElement.querySelector('.first-date');
+            
+            if (nameElement) nameElement.textContent = player.username;
+            if (avgPerfElement) avgPerfElement.textContent = player.avg_performance;
+            if (avgRatingElement) avgRatingElement.textContent = player.avg_rating;
+            if (totalScoreElement) totalScoreElement.textContent = player.total_score;
+            if (tournamentsElement) tournamentsElement.textContent = player.tournaments_count;
+            if (firstDateElement) firstDateElement.textContent = player.first_tournament;
         }
     });
 }
@@ -217,75 +267,61 @@ function renderTop5Players(players) {
 // Отображение топ-1 в категориях
 function renderCategories(players) {
     const categories = [
-        {
-            key: 'avg_performance',
-            title: 'Максимальный средний перформанс',
-            selector: '.category-item:nth-child(1)'
-        },
-        {
-            key: 'tournaments_count',
-            title: 'Наибольшее количество турниров',
-            selector: '.category-item:nth-child(2)'
-        },
-        {
-            key: 'max_score',
-            title: 'Максимальные очки за турнир',
-            selector: '.category-item:nth-child(3)'
-        },
-        {
-            key: 'total_score',
-            title: 'Наибольшая сумма очков',
-            selector: '.category-item:nth-child(4)'
-        },
-        {
-            key: 'max_rating',
-            title: 'Максимальный рейтинг',
-            selector: '.category-item:nth-child(5)'
-        }
+        { key: 'avg_performance', selector: '.category-item:nth-child(1)' },
+        { key: 'tournaments_count', selector: '.category-item:nth-child(2)' },
+        { key: 'max_score', selector: '.category-item:nth-child(3)' },
+        { key: 'total_score', selector: '.category-item:nth-child(4)' },
+        { key: 'max_rating', selector: '.category-item:nth-child(5)' }
     ];
-
+    
     categories.forEach(category => {
         const winner = [...players].sort((a, b) => b[category.key] - a[category.key])[0];
         const categoryElement = document.querySelector(category.selector);
-
+        
         if (categoryElement && winner) {
-            categoryElement.querySelector('.winner-name').textContent = winner.username;
-            categoryElement.querySelector('.winner-value').textContent = winner[category.key];
+            const nameElement = categoryElement.querySelector('.winner-name');
+            const valueElement = categoryElement.querySelector('.winner-value');
+            
+            if (nameElement) nameElement.textContent = winner.username;
+            if (valueElement) valueElement.textContent = winner[category.key];
         }
     });
 }
 
 // Отображение таблицы игроков
 function renderPlayersTable(players, page = 1) {
-    const sortValue = document.getElementById('sortSelect').value;
-    const searchValue = document.getElementById('playerSearch').value.toLowerCase();
-
-    // Фильтруем игроков по поиску
+    const sortSelect = document.getElementById('sortSelect');
+    const playerSearch = document.getElementById('playerSearch');
+    
+    if (!sortSelect || !playerSearch) return;
+    
+    const sortValue = sortSelect.value;
+    const searchValue = playerSearch.value.toLowerCase();
+    
     let filteredPlayers = players.filter(player => 
         player.username.toLowerCase().includes(searchValue)
     );
-
-    // Сортируем игроков
+    
     filteredPlayers.sort((a, b) => {
         switch (sortValue) {
             case 'avg_performance':
                 return b.avg_performance - a.avg_performance;
             case 'tournaments_count':
                 return b.tournaments_count - a.tournaments_count;
-            default: // total_score
+            default:
                 return b.total_score - a.total_score;
         }
     });
-
-    // Пагинация
+    
     const startIndex = (page - 1) * playersPerPage;
     const endIndex = startIndex + playersPerPage;
     const playersToShow = filteredPlayers.slice(startIndex, endIndex);
-
-    // Отображаем таблицу
+    
     const tbody = document.getElementById('playersTableBody');
+    if (!tbody) return;
+    
     tbody.innerHTML = '';
-
+    
     playersToShow.forEach(player => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -299,17 +335,20 @@ function renderPlayersTable(players, page = 1) {
         `;
         tbody.appendChild(row);
     });
-
-    // Обновляем информацию о пагинации
+    
     const totalPages = Math.ceil(filteredPlayers.length / playersPerPage);
-    document.getElementById('pageInfo').textContent = `Страница ${page} из ${totalPages}`;
-
-    // Обновляем кнопки пагинации
-    document.getElementById('prevPage').disabled = page <= 1;
-    document.getElementById('nextPage').disabled = page >= totalPages;
-
+    const pageInfo = document.getElementById('pageInfo');
+    if (pageInfo) {
+        pageInfo.textContent = `Страница ${page} из ${totalPages}`;
+    }
+    
+    const prevPage = document.getElementById('prevPage');
+    const nextPage = document.getElementById('nextPage');
+    if (prevPage) prevPage.disabled = page <= 1;
+    if (nextPage) nextPage.disabled = page >= totalPages;
+    
     currentPage = page;
-
+    
     // Добавляем обработчики кликов по именам игроков
     document.querySelectorAll('.player-link').forEach(link => {
         link.addEventListener('click', (e) => {
@@ -324,18 +363,20 @@ function renderPlayersTable(players, page = 1) {
 async function showPlayerModal(username) {
     const modal = document.getElementById('playerModal');
     const modalContent = document.getElementById('modalContent');
-
+    
+    if (!modal || !modalContent) return;
+    
     modalContent.innerHTML = '<p>Загрузка профиля игрока...</p>';
     modal.style.display = 'block';
-
+    
     try {
-        // Загружаем данные игрока через Lichess API
-        const response = await fetch(`https://lichess.org/api/user/${username}`, {
-            headers: {
-                'Authorization': 'Bearer lip_KwozD2M4hihAzGKGareq'
-            }
-        });
-
+        const headers = {};
+        if (LICHESS_TOKEN) {
+            headers['Authorization'] = `Bearer ${LICHESS_TOKEN}`;
+        }
+        
+        const response = await fetch(`https://lichess.org/api/user/${username}`, { headers });
+        
         if (response.ok) {
             const data = await response.json();
             modalContent.innerHTML = `
@@ -368,23 +409,32 @@ async function showPlayerModal(username) {
 // Инициализация приложения
 async function initApp() {
     try {
-        // Загружаем все файлы турниров
+        console.log('Инициализация приложения...');
+        
+        // Получаем список CSV файлов из GitHub
+        const tournamentFiles = await getTournamentFiles();
+        console.log('Найдены файлы турниров:', tournamentFiles);
+        
+        // Загружаем все файлы
         const allRawData = [];
-        for (const filename of tournamentFiles) {
-            const data = await loadCSV(filename);
+        for (const fileInfo of tournamentFiles) {
+            const data = await loadCSV(fileInfo);
             allRawData.push(...data);
         }
-
+        
+        console.log('Загружено записей:', allRawData.length);
+        
         // Агрегируем данные игроков
         allPlayerData = aggregatePlayerData(allRawData);
-
+        console.log('Обработано игроков:', allPlayerData.length);
+        
         // Отображаем данные
         renderTop5Players(allPlayerData);
         renderCategories(allPlayerData);
         renderPlayersTable(allPlayerData);
-
-        console.log('Данные загружены:', allPlayerData);
-
+        
+        console.log('Инициализация завершена');
+        
     } catch (error) {
         console.error('Ошибка при инициализации:', error);
     }
@@ -392,41 +442,56 @@ async function initApp() {
 
 // Обработчики событий
 document.addEventListener('DOMContentLoaded', () => {
-    // Инициализируем приложение
     initApp();
-
+    
     // Поиск игроков
-    document.getElementById('playerSearch').addEventListener('input', () => {
-        renderPlayersTable(allPlayerData, 1);
-    });
-
+    const playerSearch = document.getElementById('playerSearch');
+    if (playerSearch) {
+        playerSearch.addEventListener('input', () => {
+            renderPlayersTable(allPlayerData, 1);
+        });
+    }
+    
     // Сортировка
-    document.getElementById('sortSelect').addEventListener('change', () => {
-        renderPlayersTable(allPlayerData, 1);
-    });
-
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+            renderPlayersTable(allPlayerData, 1);
+        });
+    }
+    
     // Пагинация
-    document.getElementById('prevPage').addEventListener('click', () => {
-        if (currentPage > 1) {
-            renderPlayersTable(allPlayerData, currentPage - 1);
-        }
-    });
-
-    document.getElementById('nextPage').addEventListener('click', () => {
-        const totalPages = Math.ceil(allPlayerData.length / playersPerPage);
-        if (currentPage < totalPages) {
-            renderPlayersTable(allPlayerData, currentPage + 1);
-        }
-    });
-
+    const prevPage = document.getElementById('prevPage');
+    if (prevPage) {
+        prevPage.addEventListener('click', () => {
+            if (currentPage > 1) {
+                renderPlayersTable(allPlayerData, currentPage - 1);
+            }
+        });
+    }
+    
+    const nextPage = document.getElementById('nextPage');
+    if (nextPage) {
+        nextPage.addEventListener('click', () => {
+            const totalPages = Math.ceil(allPlayerData.length / playersPerPage);
+            if (currentPage < totalPages) {
+                renderPlayersTable(allPlayerData, currentPage + 1);
+            }
+        });
+    }
+    
     // Закрытие модального окна
-    document.querySelector('.close').addEventListener('click', () => {
-        document.getElementById('playerModal').style.display = 'none';
-    });
-
+    const closeButton = document.querySelector('.close');
+    if (closeButton) {
+        closeButton.addEventListener('click', () => {
+            const modal = document.getElementById('playerModal');
+            if (modal) modal.style.display = 'none';
+        });
+    }
+    
     window.addEventListener('click', (e) => {
         const modal = document.getElementById('playerModal');
-        if (e.target === modal) {
+        if (modal && e.target === modal) {
             modal.style.display = 'none';
         }
     });
