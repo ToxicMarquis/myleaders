@@ -11,7 +11,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="img/logo.png" alt="Logo" class="logo">
+                <img src="img/logo.png" alt="Logo" class="logo-img">
                 <span>Unicorn7Love Fun Club</span>
             </div>
             <div class="nav-menu">
@@ -19,7 +19,7 @@
                 <a href="#statistics" class="nav-link">Статистика</a>
                 <a href="#admins" class="nav-link">Администраторы</a>
             </div>
-            <button id="theme-toggle" class="theme-toggle">
+            <button id="theme-toggle" class="theme-btn">
                 <i class="fas fa-moon"></i>
             </button>
         </div>
@@ -29,34 +29,32 @@
         <!-- Главная страница -->
         <section id="home" class="section active">
             <div class="container">
-                <div class="welcome-section">
-                    <h1>Добро пожаловать на сайт нашей команды</h1>
-                    
-                    <div class="banner">
-                        <img src="img/banner.jpg" alt="Баннер клуба" class="banner-img">
-                    </div>
+                <h1 class="welcome-title">Добро пожаловать на сайт нашей команды</h1>
 
-                    <div class="club-description">
-                        <p>Международный мастер по шахматам Илья Чеклецов и Команда Единомышленников ежедневно трудятся над созданием лучшего русскоязычного шахматного сообщества, целью которого является продвижение и популяризация шахмат.</p>
-                    </div>
+                <div class="banner-container">
+                    <img src="img/banner.jpg" alt="Баннер клуба" class="main-banner">
+                </div>
 
-                    <div class="social-links">
-                        <a href="#" class="social-btn telegram">
-                            📱 Telegram
-                        </a>
-                        <a href="#" class="social-btn twitch">
-                            📺 Twitch
-                        </a>
-                        <a href="#" class="social-btn lichess">
-                            ♞ Lichess Club
-                        </a>
-                    </div>
+                <div class="club-description">
+                    <p>Международный мастер по шахматам Илья Чеклецов и Команда Единомышленников ежедневно трудятся над созданием лучшего русскоязычного шахматного сообщества, целью которого является продвижение и популяризация шахмат.</p>
+                </div>
 
-                    <div class="live-game-section">
-                        <h2>🔴 Трансляция партии</h2>
-                        <div class="live-game-container" id="liveGameContainer">
-                            <div class="loading">Загрузка текущей партии...</div>
-                        </div>
+                <div class="social-links">
+                    <a href="https://t.me/unicorn7love" class="social-btn telegram">
+                        📱 Telegram
+                    </a>
+                    <a href="https://twitch.tv/unicorn7love" class="social-btn twitch">
+                        📺 Twitch
+                    </a>
+                    <a href="https://lichess.org/team/unicorn7love-fun-club" class="social-btn lichess">
+                        ♞ Lichess Club
+                    </a>
+                </div>
+
+                <div class="live-game-section">
+                    <h2>🔴 Трансляция партии</h2>
+                    <div class="live-game-container" id="liveGameContainer">
+                        <div class="loading">Загрузка текущей партии...</div>
                     </div>
                 </div>
             </div>
@@ -74,7 +72,7 @@
                         <p><strong>Очки × 10 + Посещаемость × 25 + Средний перформанс ÷ 100</strong></p>
                         <p>Система учитывает не только результаты в турнирах, но и активность участия в командных играх.</p>
                     </div>
-                    
+
                     <div class="instruction-card">
                         <h3>Почему одинаково очков, но кто-то выше?</h3>
                         <p>При равенстве очков используются дополнительные коэффициенты:</p>
@@ -86,181 +84,188 @@
                     </div>
                 </div>
 
-                <div class="top-players-section">
-                    <h2>🏆 Топ-5 игроков команды</h2>
-                    <div class="top-players">
-                        <div class="top-player diamond" data-rank="1">
-                            <div class="rank-badge">1</div>
-                            <div class="player-info">
-                                <div class="player-name-section">
-                                    <span class="player-title"></span>
-                                    <span class="player-name">Loading...</span>
+                <div class="stats-grid">
+                    <div class="top-players-section">
+                        <h2>🏆 Топ-5 игроков команды</h2>
+                        <div class="top-players-list">
+                            <div class="top-player diamond" data-rank="1">
+                                <div class="rank-badge">1</div>
+                                <div class="player-info">
+                                    <div class="player-name-section">
+                                        <span class="player-title" style="display: none;"></span>
+                                        <span class="player-name">Загрузка...</span>
+                                    </div>
+                                    <div class="level-info">
+                                        <span class="level-text">Уровень <span class="level-number">0</span></span>
+                                        <div class="experience-bar">
+                                            <div class="experience-fill" style="width: 0%;"></div>
+                                        </div>
+                                        <span class="experience-value" style="color: #666;">0%</span>
+                                    </div>
+                                    <div class="ratings">
+                                        <div class="rating-item">
+                                            <span class="rating-icon bullet">🚀</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon blitz">🔥</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon rapid">🐰</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon classical">🐢</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                    </div>
+                                    <div class="first-tournament">Первый турнир: <span class="first-date" style="color: #666;">-</span></div>
                                 </div>
-                                <div class="level-info">
-                                    <span class="level-text">Уровень <span class="level-number">0</span></span>
-                                    <div class="experience-bar">
-                                        <div class="experience-fill" style="width: 0%;"></div>
-                                    </div>
-                                </div>
-                                <div class="ratings">
-                                    <div class="rating-item">
-                                        <span class="rating-icon bullet"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon blitz"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon rapid"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon classical"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                </div>
-                                <div class="first-tournament">Первый турнир: <span class="first-date">-</span></div>
                             </div>
-                        </div>
 
-                        <div class="top-player platinum" data-rank="2">
-                            <div class="rank-badge">2</div>
-                            <div class="player-info">
-                                <div class="player-name-section">
-                                    <span class="player-title"></span>
-                                    <span class="player-name">Loading...</span>
+                            <div class="top-player platinum" data-rank="2">
+                                <div class="rank-badge">2</div>
+                                <div class="player-info">
+                                    <div class="player-name-section">
+                                        <span class="player-title" style="display: none;"></span>
+                                        <span class="player-name">Загрузка...</span>
+                                    </div>
+                                    <div class="level-info">
+                                        <span class="level-text">Уровень <span class="level-number">0</span></span>
+                                        <div class="experience-bar">
+                                            <div class="experience-fill" style="width: 0%;"></div>
+                                        </div>
+                                        <span class="experience-value" style="color: #666;">0%</span>
+                                    </div>
+                                    <div class="ratings">
+                                        <div class="rating-item">
+                                            <span class="rating-icon bullet">🚀</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon blitz">🔥</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon rapid">🐰</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon classical">🐢</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                    </div>
+                                    <div class="first-tournament">Первый турнир: <span class="first-date" style="color: #666;">-</span></div>
                                 </div>
-                                <div class="level-info">
-                                    <span class="level-text">Уровень <span class="level-number">0</span></span>
-                                    <div class="experience-bar">
-                                        <div class="experience-fill" style="width: 0%;"></div>
-                                    </div>
-                                </div>
-                                <div class="ratings">
-                                    <div class="rating-item">
-                                        <span class="rating-icon bullet"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon blitz"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon rapid"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon classical"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                </div>
-                                <div class="first-tournament">Первый турнир: <span class="first-date">-</span></div>
                             </div>
-                        </div>
 
-                        <div class="top-player gold" data-rank="3">
-                            <div class="rank-badge">3</div>
-                            <div class="player-info">
-                                <div class="player-name-section">
-                                    <span class="player-title"></span>
-                                    <span class="player-name">Loading...</span>
+                            <div class="top-player gold" data-rank="3">
+                                <div class="rank-badge">3</div>
+                                <div class="player-info">
+                                    <div class="player-name-section">
+                                        <span class="player-title" style="display: none;"></span>
+                                        <span class="player-name">Загрузка...</span>
+                                    </div>
+                                    <div class="level-info">
+                                        <span class="level-text">Уровень <span class="level-number">0</span></span>
+                                        <div class="experience-bar">
+                                            <div class="experience-fill" style="width: 0%;"></div>
+                                        </div>
+                                        <span class="experience-value" style="color: #666;">0%</span>
+                                    </div>
+                                    <div class="ratings">
+                                        <div class="rating-item">
+                                            <span class="rating-icon bullet">🚀</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon blitz">🔥</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon rapid">🐰</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon classical">🐢</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                    </div>
+                                    <div class="first-tournament">Первый турнир: <span class="first-date" style="color: #666;">-</span></div>
                                 </div>
-                                <div class="level-info">
-                                    <span class="level-text">Уровень <span class="level-number">0</span></span>
-                                    <div class="experience-bar">
-                                        <div class="experience-fill" style="width: 0%;"></div>
-                                    </div>
-                                </div>
-                                <div class="ratings">
-                                    <div class="rating-item">
-                                        <span class="rating-icon bullet"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon blitz"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon rapid"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon classical"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                </div>
-                                <div class="first-tournament">Первый турнир: <span class="first-date">-</span></div>
                             </div>
-                        </div>
 
-                        <div class="top-player silver" data-rank="4">
-                            <div class="rank-badge">4</div>
-                            <div class="player-info">
-                                <div class="player-name-section">
-                                    <span class="player-title"></span>
-                                    <span class="player-name">Loading...</span>
+                            <div class="top-player silver" data-rank="4">
+                                <div class="rank-badge">4</div>
+                                <div class="player-info">
+                                    <div class="player-name-section">
+                                        <span class="player-title" style="display: none;"></span>
+                                        <span class="player-name">Загрузка...</span>
+                                    </div>
+                                    <div class="level-info">
+                                        <span class="level-text">Уровень <span class="level-number">0</span></span>
+                                        <div class="experience-bar">
+                                            <div class="experience-fill" style="width: 0%;"></div>
+                                        </div>
+                                        <span class="experience-value" style="color: #666;">0%</span>
+                                    </div>
+                                    <div class="ratings">
+                                        <div class="rating-item">
+                                            <span class="rating-icon bullet">🚀</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon blitz">🔥</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon rapid">🐰</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon classical">🐢</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                    </div>
+                                    <div class="first-tournament">Первый турнир: <span class="first-date" style="color: #666;">-</span></div>
                                 </div>
-                                <div class="level-info">
-                                    <span class="level-text">Уровень <span class="level-number">0</span></span>
-                                    <div class="experience-bar">
-                                        <div class="experience-fill" style="width: 0%;"></div>
-                                    </div>
-                                </div>
-                                <div class="ratings">
-                                    <div class="rating-item">
-                                        <span class="rating-icon bullet"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon blitz"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon rapid"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon classical"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                </div>
-                                <div class="first-tournament">Первый турнир: <span class="first-date">-</span></div>
                             </div>
-                        </div>
 
-                        <div class="top-player bronze" data-rank="5">
-                            <div class="rank-badge">5</div>
-                            <div class="player-info">
-                                <div class="player-name-section">
-                                    <span class="player-title"></span>
-                                    <span class="player-name">Loading...</span>
+                            <div class="top-player bronze" data-rank="5">
+                                <div class="rank-badge">5</div>
+                                <div class="player-info">
+                                    <div class="player-name-section">
+                                        <span class="player-title" style="display: none;"></span>
+                                        <span class="player-name">Загрузка...</span>
+                                    </div>
+                                    <div class="level-info">
+                                        <span class="level-text">Уровень <span class="level-number">0</span></span>
+                                        <div class="experience-bar">
+                                            <div class="experience-fill" style="width: 0%;"></div>
+                                        </div>
+                                        <span class="experience-value" style="color: #666;">0%</span>
+                                    </div>
+                                    <div class="ratings">
+                                        <div class="rating-item">
+                                            <span class="rating-icon bullet">🚀</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon blitz">🔥</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon rapid">🐰</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                        <div class="rating-item">
+                                            <span class="rating-icon classical">🐢</span>
+                                            <span class="rating-value" style="color: #666;">-</span>
+                                        </div>
+                                    </div>
+                                    <div class="first-tournament">Первый турнир: <span class="first-date" style="color: #666;">-</span></div>
                                 </div>
-                                <div class="level-info">
-                                    <span class="level-text">Уровень <span class="level-number">0</span></span>
-                                    <div class="experience-bar">
-                                        <div class="experience-fill" style="width: 0%;"></div>
-                                    </div>
-                                </div>
-                                <div class="ratings">
-                                    <div class="rating-item">
-                                        <span class="rating-icon bullet"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon blitz"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon rapid"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                    <div class="rating-item">
-                                        <span class="rating-icon classical"></span>
-                                        <span class="rating-value">-</span>
-                                    </div>
-                                </div>
-                                <div class="first-tournament">Первый турнир: <span class="first-date">-</span></div>
                             </div>
                         </div>
                     </div>
@@ -268,13 +273,13 @@
 
                 <div class="players-table-section">
                     <h2>📊 Все участники</h2>
-                    
+
                     <div class="table-controls">
                         <div class="search-box">
                             <i class="fas fa-search"></i>
-                            <input type="text" id="playerSearch" placeholder="Поиск игрока...">
+                            <input type="text" id="playerSearch" class="search-input" placeholder="Поиск игрока...">
                         </div>
-                        <select id="sortSelect">
+                        <select id="sortSelect" class="sort-select">
                             <option value="utility">Коэффициент полезности</option>
                             <option value="total_score">Сумма очков</option>
                             <option value="avg_performance">Средний перформанс</option>
@@ -302,9 +307,9 @@
                     </div>
 
                     <div class="pagination">
-                        <button id="prevPage">← Предыдущая</button>
+                        <button id="prevPage" class="page-btn">← Предыдущая</button>
                         <span id="pageInfo">Страница 1 из 1</span>
-                        <button id="nextPage">Следующая →</button>
+                        <button id="nextPage" class="page-btn">Следующая →</button>
                     </div>
                 </div>
             </div>
@@ -314,69 +319,69 @@
         <section id="admins" class="section">
             <div class="container">
                 <h1>Администраторы клуба</h1>
-                
-                <div class="admins-grid">
+
+                <div class="admin-cards">
                     <div class="admin-card">
-                        <div class="admin-header">
-                            <img src="img/checkcov.jpg" alt="IM Чеклецов Илья" class="admin-avatar">
-                            <div class="admin-info">
-                                <h3>IM Чеклецов Илья</h3>
-                                <p class="admin-role">Владелец клуба</p>
+                        <div class="admin-avatar">
+                            <img src="img/checkcov.jpg" alt="IM Чеклецов Илья">
+                        </div>
+                        <div class="admin-info">
+                            <h3>IM Чеклецов Илья</h3>
+                            <p class="admin-role">Владелец клуба</p>
+
+                            <div class="admin-ratings">
+                                <a href="https://ratings.fide.com/profile/24177156" target="_blank" class="rating-link fide">
+                                    <i class="fas fa-chess-king"></i> FIDE
+                                </a>
+                                <a href="https://ratings.ruchess.ru/people/148" target="_blank" class="rating-link ruchess">
+                                    <i class="fas fa-flag"></i> ФШР
+                                </a>
+                                <a href="https://lichess.org/@/Unicorn7Love" target="_blank" class="rating-link lichess">
+                                    <i class="fas fa-chess-knight"></i> Lichess
+                                </a>
                             </div>
-                        </div>
-                        
-                        <div class="admin-ratings">
-                            <a href="https://ratings.fide.com/profile/24177156" target="_blank">
-                                <i class="fas fa-chess-king"></i> FIDE
-                            </a>
-                            <a href="https://ratings.ruchess.ru/people/148" target="_blank">
-                                <i class="fas fa-flag"></i> ФШР
-                            </a>
-                            <a href="https://lichess.org/@/Unicorn7Love" target="_blank">
-                                <i class="fas fa-chess-knight"></i> Lichess
-                            </a>
-                        </div>
 
-                        <div class="admin-description">
-                            <p>Международный мастер, основатель и душа клуба. Организует турниры, ведет обучение и создает дружескую атмосферу для всех участников команды.</p>
-                        </div>
+                            <div class="admin-bio">
+                                <p>Международный мастер, основатель и душа клуба. Организует турниры, ведет обучение и создает дружескую атмосферу для всех участников команды.</p>
+                            </div>
 
-                        <div class="admin-contact">
-                            <a href="https://t.me/Unicorn7Love" target="_blank">
-                                <i class="fab fa-telegram"></i> Telegram
-                            </a>
+                            <div class="admin-contact">
+                                <a href="https://t.me/Unicorn7Love" target="_blank" class="contact-link telegram">
+                                    <i class="fab fa-telegram"></i> Telegram
+                                </a>
+                            </div>
                         </div>
                     </div>
 
                     <div class="admin-card">
-                        <div class="admin-header">
-                            <img src="img/rasputin.jpg" alt="AIM Распутин Марк" class="admin-avatar">
-                            <div class="admin-info">
-                                <h3>AIM Распутин Марк</h3>
-                                <p class="admin-role">Администратор</p>
+                        <div class="admin-avatar">
+                            <img src="img/rasputin.jpg" alt="AIM Распутин Марк">
+                        </div>
+                        <div class="admin-info">
+                            <h3>AIM Распутин Марк</h3>
+                            <p class="admin-role">Администратор</p>
+
+                            <div class="admin-ratings">
+                                <a href="https://ratings.fide.com/profile/55865798" target="_blank" class="rating-link fide">
+                                    <i class="fas fa-chess-king"></i> FIDE
+                                </a>
+                                <a href="https://ratings.ruchess.ru/people/128626" target="_blank" class="rating-link ruchess">
+                                    <i class="fas fa-flag"></i> ФШР
+                                </a>
+                                <a href="https://lichess.org/@/ModerMark" target="_blank" class="rating-link lichess">
+                                    <i class="fas fa-chess-knight"></i> Lichess
+                                </a>
                             </div>
-                        </div>
-                        
-                        <div class="admin-ratings">
-                            <a href="https://ratings.fide.com/profile/55865798" target="_blank">
-                                <i class="fas fa-chess-king"></i> FIDE
-                            </a>
-                            <a href="https://ratings.ruchess.ru/people/128626" target="_blank">
-                                <i class="fas fa-flag"></i> ФШР
-                            </a>
-                            <a href="https://lichess.org/@/ModerMark" target="_blank">
-                                <i class="fas fa-chess-knight"></i> Lichess
-                            </a>
-                        </div>
 
-                        <div class="admin-description">
-                            <p>Перспективный шахматист и технический администратор клуба. Занимается поддержкой сайта, организацией матчей и помогает в развитии команды.</p>
-                        </div>
+                            <div class="admin-bio">
+                                <p>Перспективный шахматист и технический администратор клуба. Занимается поддержкой сайта, организацией матчей и помогает в развитии команды.</p>
+                            </div>
 
-                        <div class="admin-contact">
-                            <a href="https://t.me/mrmarqu1s" target="_blank">
-                                <i class="fab fa-telegram"></i> Telegram
-                            </a>
+                            <div class="admin-contact">
+                                <a href="https://t.me/mrmarqu1s" target="_blank" class="contact-link telegram">
+                                    <i class="fab fa-telegram"></i> Telegram
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -394,7 +399,10 @@
         </div>
     </div>
 
-    <script src="config.js"></script>
+    <script>
+        // Переменная для токена (будет установлена через GitHub Actions)
+        window.LICHESS_API_TOKEN = window.LICHESS_API_TOKEN || '';
+    </script>
     <script src="app.js"></script>
 </body>
 </html>

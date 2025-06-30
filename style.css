@@ -43,7 +43,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('chess_bg.png') repeat;
+    background: url('img/chess_bg.png') repeat;
     background-size: 200px 200px;
     z-index: -2;
 }
@@ -112,11 +112,17 @@ body::after {
     border-radius: 6px;
     transition: all 0.3s ease;
     font-weight: 500;
+    cursor: pointer;
 }
 
 .nav-link:hover {
     background: var(--accent-light);
     color: var(--primary-color);
+}
+
+.nav-link.active {
+    background: var(--primary-color);
+    color: white;
 }
 
 .theme-btn {
@@ -187,6 +193,7 @@ body::after {
     justify-content: center;
     gap: 1.5rem;
     flex-wrap: wrap;
+    margin-bottom: 2rem;
 }
 
 .social-btn {
@@ -211,22 +218,100 @@ body::after {
     color: white;
 }
 
+.social-btn.lichess {
+    background: linear-gradient(135deg, #000000, #333333);
+    color: white;
+}
+
 .social-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0,0,0,0.2);
 }
 
-/* Статистика */
-.stats-grid {
+/* Трансляция партий */
+.live-game-section {
+    margin-top: 2rem;
+}
+
+.live-game-section h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.live-game-container {
+    text-align: center;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.live-game-container iframe {
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+
+.live-game-container .loading {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-color);
+}
+
+/* Инструкции */
+.instructions-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
     margin-bottom: 3rem;
 }
 
+.instruction-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
+}
+
+.instruction-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.instruction-card ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.instruction-card li {
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.instruction-card li::before {
+    content: '•';
+    color: var(--primary-color);
+    position: absolute;
+    left: 0;
+}
+
+/* Статистика */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
 /* Топ-5 игроков */
-.top-players-section h2,
-.categories-section h2 {
+.top-players-section h2 {
     margin-bottom: 1.5rem;
     color: var(--primary-color);
     font-size: 1.5rem;
@@ -242,7 +327,7 @@ body::after {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     transition: transform 0.3s ease;
@@ -255,16 +340,18 @@ body::after {
 .rank-badge {
     font-size: 1.5rem;
     font-weight: bold;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    flex-shrink: 0;
 }
 
+/* Цвета для топ-5 */
 .diamond {
     background: linear-gradient(135deg, #b9f2ff, #e0ffff);
     color: #003d5c !important;
@@ -314,58 +401,88 @@ body::after {
     flex: 1;
 }
 
+.player-name-section {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.player-title {
+    font-weight: 700;
+    color: var(--primary-color);
+    background: rgba(155, 0, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
 .player-name {
     font-size: 1.2rem;
     font-weight: bold;
-    margin-bottom: 0.5rem;
 }
 
-.player-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 0.5rem;
-    font-size: 0.9rem;
-}
-
-.stat {
+.level-info {
     display: flex;
-    flex-direction: column;
-}
-
-/* Категории */
-.categories-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.category-item {
-    background: var(--card-bg);
-    padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.category-item h3 {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    color: var(--primary-color);
-}
-
-.category-winner {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
 }
 
-.winner-name {
-    font-weight: bold;
+.level-text {
+    font-size: 0.9rem;
+    font-weight: 600;
 }
 
-.winner-value {
-    color: var(--primary-color);
-    font-weight: bold;
+.experience-bar {
+    flex: 1;
+    height: 8px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 0.5rem;
+}
+
+.experience-fill {
+    height: 100%;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.experience-value {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.ratings {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.rating-item {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.rating-icon {
+    font-size: 1.2rem;
+}
+
+.rating-value {
+    font-weight: 600;
+    color: #666;
+}
+
+.first-tournament {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.first-date {
+    color: #666;
 }
 
 /* Таблица игроков */
@@ -385,18 +502,35 @@ body::after {
     flex-wrap: wrap;
 }
 
-.search-input,
+.search-box {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+.search-input {
+    padding: 0.5rem 0.5rem 0.5rem 2.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    width: 100%;
+}
+
 .sort-select {
     padding: 0.5rem;
     border: 1px solid var(--border-color);
     border-radius: 6px;
     background: var(--card-bg);
     color: var(--text-color);
-}
-
-.search-input {
-    flex: 1;
-    min-width: 200px;
 }
 
 .table-container {
@@ -432,6 +566,17 @@ body::after {
 
 .players-table tbody tr:nth-child(even) {
     background: rgba(0,0,0,0.02);
+}
+
+.player-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.player-link:hover {
+    text-decoration: underline;
 }
 
 .pagination {
@@ -595,35 +740,60 @@ body::after {
     color: var(--primary-color);
 }
 
-.live-game-container iframe{
-  width:100%;
-  max-width:600px;
-  height:400px;
-  border:0;
-  border-radius:12px;
-  box-shadow:0 4px 16px rgba(0,0,0,.25);
+.modal-player-info h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
 }
-.live-game-container .loading{padding:2rem;text-align:center}
 
-.rating-icon{
-  display:inline-block;width:22px;height:22px;margin-right:4px;
-  background-size:contain;background-repeat:no-repeat;vertical-align:middle;
+.modal-level-info {
+    margin: 1rem 0;
 }
-.rating-icon.bullet    {background-image:url('img/bullet.svg')}
-.rating-icon.blitz     {background-image:url('img/blitz.svg')}
-.rating-icon.rapid     {background-image:url('img/rapid.svg')}
-.rating-icon.classical {background-image:url('img/classical.svg')}
 
-.level-bar{display:flex;align-items:center;gap:.5rem;font-size:.9rem}
-.experience-bar{flex:1;height:6px;background:var(--border-color);border-radius:4px;overflow:hidden}
-.experience-fill{height:100%;background:var(--primary-color)}
+.modal-ratings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
 
-.player-name-section{display:flex;gap:4px;align-items:center}
-.player-title{font-weight:700;color:var(--primary-color)}
+.modal-rating-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(155, 0, 255, 0.1);
+    border-radius: 6px;
+}
+
+.modal-links {
+    margin-top: 1rem;
+}
+
+.lichess-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.lichess-link:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
 
 /* Адаптивность */
 @media (max-width: 768px) {
     .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .instructions-section {
         grid-template-columns: 1fr;
     }
 
@@ -651,8 +821,13 @@ body::after {
         font-size: 2rem;
     }
 
-    .player-stats {
-        grid-template-columns: 1fr;
+    .top-player {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .ratings {
+        justify-content: center;
     }
 }
 
@@ -671,5 +846,15 @@ body::after {
 
     .welcome-title {
         font-size: 1.5rem;
+    }
+
+    .top-player {
+        padding: 1rem;
+    }
+
+    .rank-badge {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
     }
 }
