@@ -276,10 +276,6 @@ body::after {
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     flex-shrink: 0;
 }
-.rating-icon.bullet { background-image: url('img/bullet.png'); }
-.rating-icon.blitz { background-image: url('img/blitz.png'); }
-.rating-icon.rapid { background-image: url('img/rapid.png'); }
-.rating-icon.classic { background-image: url('img/classic.png'); }
 
 /* Цвета для топ-5 */
 .diamond {
@@ -377,7 +373,24 @@ body::after {
     gap: 0.3rem;
 }
 .rating-icon {
-    font-size: 1.2rem;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 0.5rem;
+}
+.rating-icon.bullet {
+    background-image: url('img/bullet.png');
+}
+.rating-icon.blitz {
+    background-image: url('img/blitz.png');
+}
+.rating-icon.rapid {
+    background-image: url('img/rapid.png');
+}
+.rating-icon.classic {
+    background-image: url('img/classic.png');
 }
 .rating-value {
     font-weight: 600;
