@@ -381,7 +381,7 @@ body::after {
 }
 .first-tournament {
     font-size: 0.9rem;
-    color: var(--text-color);
+    color: #666;
 }
 .first-date {
     color: #666;
