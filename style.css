@@ -595,6 +595,32 @@ body::after {
     color: var(--primary-color);
 }
 
+.live-game-container iframe{
+  width:100%;
+  max-width:600px;
+  height:400px;
+  border:0;
+  border-radius:12px;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+}
+.live-game-container .loading{padding:2rem;text-align:center}
+
+.rating-icon{
+  display:inline-block;width:22px;height:22px;margin-right:4px;
+  background-size:contain;background-repeat:no-repeat;vertical-align:middle;
+}
+.rating-icon.bullet    {background-image:url('img/bullet.svg')}
+.rating-icon.blitz     {background-image:url('img/blitz.svg')}
+.rating-icon.rapid     {background-image:url('img/rapid.svg')}
+.rating-icon.classical {background-image:url('img/classical.svg')}
+
+.level-bar{display:flex;align-items:center;gap:.5rem;font-size:.9rem}
+.experience-bar{flex:1;height:6px;background:var(--border-color);border-radius:4px;overflow:hidden}
+.experience-fill{height:100%;background:var(--primary-color)}
+
+.player-name-section{display:flex;gap:4px;align-items:center}
+.player-title{font-weight:700;color:var(--primary-color)}
+
 /* Адаптивность */
 @media (max-width: 768px) {
     .stats-grid {
