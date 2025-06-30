@@ -202,7 +202,7 @@ body::after {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    margin-bottom: 3rem;
+    margin-top: 2rem;
 }
 .instruction-card {
     background: var(--card-bg);
