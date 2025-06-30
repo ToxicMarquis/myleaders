@@ -60,6 +60,9 @@ body::after {
     margin: 0 auto;
     padding: 0 20px;
 }
+.container h1 {
+    color: var(--primary-color);
+}
 
 /* Навигация */
 .navbar {
