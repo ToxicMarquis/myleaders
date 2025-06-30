@@ -1,6 +1,6 @@
 /* Основные переменные */
 :root {
-    --primary-color: #9B00FF; /* Фиолетовый */
+    --primary-color: #9B00FF;
     --primary-light: #BD7EFF;
     --primary-dark: #7A00CC;
     --background-color: #ffffff;
@@ -202,7 +202,7 @@ body::after {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    margin-top: 2rem;
+    margin-bottom: 3rem;
 }
 .instruction-card {
     background: var(--card-bg);
