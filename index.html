@@ -29,8 +29,10 @@
         <!-- Главная страница -->
         <section id="home" class="section active">
             <div class="container">
+                <h1 class="welcome-title">Добро пожаловать на сайт нашей команды</h1>
+
                 <div class="banner-container">
-                    <img src="img/banner.png" alt="Баннер клуба" class="main-banner">
+                    <img src="img/banner.jpg" alt="Баннер клуба" class="main-banner">
                 </div>
 
                 <div class="club-description">
@@ -38,16 +40,25 @@
                 </div>
 
                 <div class="social-links">
-                    <a href="https://t.me/im_unicorn7love" class="social-btn telegram">
-                        <i class="fab fa-telegram-plane"></i> Telegram
+                    <a href="https://t.me/unicorn7love" class="social-btn telegram">
+                        📱 Telegram
                     </a>
                     <a href="https://twitch.tv/unicorn7love" class="social-btn twitch">
-                        <i class="fab fa-twitch"></i> Twitch
+                        📺 Twitch
                     </a>
                     <a href="https://lichess.org/team/unicorn7love-fun-club" class="social-btn lichess">
-                        <i class="fas fa-chess-knight"></i> Lichess Club
+                        ♞ Lichess Club
                     </a>
                 </div>
+
+                <div class="live-game-section">
+                    <h2>🔴 Трансляция партии</h2>
+                    <div class="live-game-container" id="liveGameContainer">
+                        <div class="loading">Загрузка текущей партии...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Страница статистики -->
         <section id="statistics" class="section">
@@ -312,7 +323,7 @@
                 <div class="admin-cards">
                     <div class="admin-card">
                         <div class="admin-avatar">
-                            <img src="img/chekletsov.jpg" alt="IM Чеклецов Илья">
+                            <img src="img/checkcov.jpg" alt="IM Чеклецов Илья">
                         </div>
                         <div class="admin-info">
                             <h3>IM Чеклецов Илья</h3>
@@ -320,10 +331,10 @@
 
                             <div class="admin-ratings">
                                 <a href="https://ratings.fide.com/profile/24177156" target="_blank" class="rating-link fide">
-                                    <i class="fas fa-trophy"></i> FIDE
+                                    <i class="fas fa-chess-king"></i> FIDE
                                 </a>
                                 <a href="https://ratings.ruchess.ru/people/148" target="_blank" class="rating-link ruchess">
-                                    <i class="fas fa-chess-king"></i> ФШР
+                                    <i class="fas fa-flag"></i> ФШР
                                 </a>
                                 <a href="https://lichess.org/@/Unicorn7Love" target="_blank" class="rating-link lichess">
                                     <i class="fas fa-chess-knight"></i> Lichess
@@ -352,10 +363,10 @@
 
                             <div class="admin-ratings">
                                 <a href="https://ratings.fide.com/profile/55865798" target="_blank" class="rating-link fide">
-                                    <i class="fas fa-trophy"></i> FIDE
+                                    <i class="fas fa-chess-king"></i> FIDE
                                 </a>
                                 <a href="https://ratings.ruchess.ru/people/128626" target="_blank" class="rating-link ruchess">
-                                    <i class="fas fa-chess-king"></i> ФШР
+                                    <i class="fas fa-flag"></i> ФШР
                                 </a>
                                 <a href="https://lichess.org/@/ModerMark" target="_blank" class="rating-link lichess">
                                     <i class="fas fa-chess-knight"></i> Lichess
@@ -363,7 +374,7 @@
                             </div>
 
                             <div class="admin-bio">
-                                <p>Перспективный шахматист и технический администратор клуба. Занимается поддержкой сайта, организацией и дизайном турниров и помогает в развитии команды.</p>
+                                <p>Перспективный шахматист и технический администратор клуба. Занимается поддержкой сайта, организацией матчей и помогает в развитии команды.</p>
                             </div>
 
                             <div class="admin-contact">
