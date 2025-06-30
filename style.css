@@ -202,7 +202,7 @@ body::after {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    margin-bottom: 3rem;
+    margin-top: 2rem;
 }
 .instruction-card {
     background: var(--card-bg);
@@ -276,6 +276,10 @@ body::after {
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     flex-shrink: 0;
 }
+.rating-icon.bullet { background-image: url('img/bullet.png'); }
+.rating-icon.blitz { background-image: url('img/blitz.png'); }
+.rating-icon.rapid { background-image: url('img/rapid.png'); }
+.rating-icon.classic { background-image: url('img/classic.png'); }
 
 /* Цвета для топ-5 */
 .diamond {
