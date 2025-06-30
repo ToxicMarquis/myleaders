@@ -19,8 +19,8 @@ const TOURNAMENTS_FOLDER = 'tournaments';
 // База титулов игроков
 const TITLE_DATABASE = {
     "Unicorn7Love": "IM",
-    "ModerMark": null
-    // Добавьте других игроков здесь
+    "ModerMark": "AIM",
+    "Tom_and_Jerry2024": "AFM"
 };
 
 // Настройка темной/светлой темы
@@ -546,71 +546,6 @@ async function showPlayerModal(username) {
             <a href="https://lichess.org/@/${username}" target="_blank" class="lichess-link">
                 <i class="fas fa-external-link-alt"></i> Открыть профиль на Lichess
             </a>
-        `;
-    }
-}
-
-// Функция трансляции партий
-async function initLiveGame() {
-    const container = document.getElementById('liveGameContainer');
-    if (!container) return;
-
-    container.innerHTML = '<div class="loading">Загрузка текущей партии...</div>';
-
-    try {
-        // Получаем топ игроков команды
-        const topPlayers = allPlayerData.slice(0, 20).map(p => p.username);
-
-        if (topPlayers.length === 0) {
-            throw new Error('Нет данных об игроках');
-        }
-
-        // Проверяем статус игроков
-        const response = await fetch('https://lichess.org/api/users/status', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                ...(LICHESS_TOKEN ? { 'Authorization': `Bearer ${LICHESS_TOKEN}` } : {})
-            },
-            body: new URLSearchParams({
-                ids: topPlayers.join(',')
-            })
-        });
-
-        if (response.ok) {
-            const statuses = await response.json();
-            const playingUser = statuses.find(user => user.playing);
-
-            if (playingUser && playingUser.playing) {
-                // Показываем партию игрока команды
-                container.innerHTML = `
-                    <div style="text-align: center; margin-bottom: 1rem;">
-                        <strong>${playingUser.name}</strong> играет сейчас
-                    </div>
-                    <iframe src="https://lichess.org/embed/game/${playingUser.playing}?theme=auto&bg=auto" 
-                            width="100%" height="400" frameborder="0"></iframe>
-                `;
-                return;
-            }
-        }
-
-        // Fallback - показываем Lichess TV Bullet
-        container.innerHTML = `
-            <div style="text-align: center; margin-bottom: 1rem;">
-                Lichess TV - Bullet
-            </div>
-            <iframe src="https://lichess.org/tv/bullet/embed?theme=auto&bg=auto" 
-                    width="100%" height="400" frameborder="0"></iframe>
-        `;
-
-    } catch (error) {
-        console.error('Ошибка при загрузке трансляции:', error);
-        container.innerHTML = `
-            <div style="text-align: center; margin-bottom: 1rem;">
-                Lichess TV - Bullet
-            </div>
-            <iframe src="https://lichess.org/tv/bullet/embed?theme=auto&bg=auto" 
-                    width="100%" height="400" frameborder="0"></iframe>
         `;
     }
 }
