@@ -513,19 +513,19 @@ async function showPlayerModal(username) {
                 </div>
                 <div class="modal-ratings">
                     <div class="modal-rating-item">
-                        <span class="rating-icon">🚀</span>
+                        <span class="rating-icon bullet">"></span>
                         <span>Bullet: ${ratings.bullet}</span>
                     </div>
                     <div class="modal-rating-item">
-                        <span class="rating-icon">🔥</span>
+                        <span class="rating-icon blitz"></span>
                         <span>Blitz: ${ratings.blitz}</span>
                     </div>
                     <div class="modal-rating-item">
-                        <span class="rating-icon">🐰</span>
+                        <span class="rating-icon rapid"></span>
                         <span>Rapid: ${ratings.rapid}</span>
                     </div>
                     <div class="modal-rating-item">
-                        <span class="rating-icon">🐢</span>
+                        <span class="rating-icon classic"></span>
                         <span>Classical: ${ratings.classical}</span>
                     </div>
                 </div>
