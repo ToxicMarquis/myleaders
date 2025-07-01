@@ -258,6 +258,13 @@ body::after {
     padding: 0.5rem 0;
     font-size: 1.1rem;
 }
+.bot-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
 .bot-btn {
     display: inline-flex;
     align-items: center;
@@ -269,11 +276,11 @@ body::after {
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-.bot-btn.link1 {
+.bot-btn.tg {
     background: linear-gradient(135deg, #480072, #8C00FF);
     color: white;
 }
-.bot-btn.link2 {
+.bot-btn.lc {
     background: linear-gradient(135deg, #480072, #8C00FF);
     color: white;
 }
