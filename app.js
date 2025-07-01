@@ -167,18 +167,22 @@ async function loadCSV(fileInfo) {
 
 // Функция для загрузки пользовательских данных
 async function loadUserData(username) {
-    const fileName = username.toLowerCase() + '.json';
-    const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${USER_DATA_FOLDER}/${fileName}`;
+  const fileLocal = `user/${username.toLowerCase()}.json`;          // ✓ тот же origin
+  const fileRaw   = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${USER_DATA_FOLDER}/${username.toLowerCase()}.json`;
 
-    try {
-        const res = await fetch(url);
-        if (!res.ok) return null;
-        return await res.json();
-    } catch (e) {
-        console.warn('user json not found:', username);
-        return null;
-    }
+  try {
+    // 1) пытаемся взять локальный файл (не наткнёмся на CORS)
+    let res = await fetch(fileLocal, {cache:'no-store'});
+    if (res.ok) return await res.json();
+    // 2) резерв: пробуем GitHub Raw (нужен, если сайт развёрнут НЕ из той же ветки)
+    res = await fetch(fileRaw, {cache:'no-store'});
+    if (res.ok) return await res.json();
+  } catch (e) {
+    console.warn('loadUserData:', e);
+  }
+  return null;            // ничего не нашли — работаем с дефолтами
 }
+
 
 // Функция для вычисления уровня и опыта
 function calculateLevel(totalScore, attendanceCount, avgPerformance) {
