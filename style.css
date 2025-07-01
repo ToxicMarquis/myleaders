@@ -261,7 +261,7 @@ body::after {
 .bot-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1.5rem;
     padding: 1rem 2rem;
     background: linear-gradient(135deg, #480072, #a100ff);
     color: white;
