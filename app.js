@@ -593,6 +593,12 @@ async function showPlayerModal(username) {
                         <p><strong>Средний перформанс:</strong> ${player.avg_performance}</p>
                     </div>
 
+                    <div id="modalEpicEffects" class="modal-epic-effects level-20"></div>
+                    <div id="modalContentWrapper" class="modal-content frame-epic">
+                        …ваш профиль…
+                    </div>
+
+
                     <div class="modal-links">
                         <a href="https://lichess.org/@/${player.username}" target="_blank" class="lichess-link">
                             <i class="fas fa-external-link-alt"></i> Открыть профиль на Lichess
