@@ -557,7 +557,7 @@ async function showPlayerModal(username) {
                 <div class="modal-player-info">
                     <h2 class="modal-player-name">
                         ${title ? `<span class="modal-player-title">${title}</span> ` : ''}
-                        ${player.username}
+                        ${player.username}${frameType}
                     </h2>
                     
                     <div class="modal-level-display">
@@ -583,7 +583,7 @@ async function showPlayerModal(username) {
                         </div>
                         <div class="modal-rating-item">
                             <span class="rating-icon classic"></span>
-                            <span>Class.: ${ratings.classical}</span>
+                            <span>Classic: ${ratings.classical}</span>
                         </div>
                     </div>
 
