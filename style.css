@@ -289,12 +289,12 @@ body::after {
     opacity: 0;
     transition: opacity 0.5s ease;
 }
-.modal-epic-effects.level-25 {
+.modal-epic-effects.level-20 {
     opacity: 1;
 }
 
 /* Щупальца энергии */
-.modal-epic-effects.level-25::before {
+.modal-epic-effects.level-20::before {
     content: '';
     position: absolute;
     top: 50%;
@@ -319,7 +319,7 @@ body::after {
 }
 
 /* Космические эффекты */
-.modal-epic-effects.level-25::after {
+.modal-epic-effects.level-20::after {
     content: '';
     position: absolute;
     top: 0;
@@ -362,8 +362,7 @@ body::after {
         0 0 20px rgba(155, 0, 255, 0.5),
         0 10px 30px rgba(0,0,0,0.3);
 }
-
-/* Цветная рамка (уровень 15-24) */
+/* Цветная рамка (уровень 15-19) */
 .modal-content.frame-colored {
     border: 4px solid var(--frame-color, var(--primary-color));
     box-shadow: 
@@ -372,7 +371,6 @@ body::after {
         0 10px 30px rgba(0,0,0,0.3);
     animation: frame-pulse 2s ease-in-out infinite;
 }
-
 @keyframes frame-pulse {
     0%, 100% { 
         box-shadow: 
@@ -388,7 +386,7 @@ body::after {
     }
 }
 
-/* Эпическая рамка (уровень 25+) */
+/* Эпическая рамка (уровень 2-+) */
 .modal-content.frame-epic {
     border: 6px solid var(--frame-color, var(--primary-color));
     box-shadow: 
@@ -398,7 +396,6 @@ body::after {
         0 20px 60px rgba(0,0,0,0.5);
     animation: frame-epic 3s ease-in-out infinite;
 }
-
 @keyframes frame-epic {
     0%, 100% { 
         transform: scale(1);
@@ -418,14 +415,12 @@ body::after {
 .modal-player-profile {
     position: relative;
 }
-
 .modal-player-banner {
     width: 100%;
     height: 150px;
     object-fit: cover;
     border-radius: 16px 16px 0 0;
 }
-
 .modal-player-avatar {
     position: absolute;
     top: 100px;
@@ -438,19 +433,16 @@ body::after {
     object-fit: cover;
     box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
-
 .modal-player-info {
     padding: 3rem 2rem 2rem;
     text-align: center;
 }
-
 .modal-player-name {
     font-size: 1.8rem;
     font-weight: bold;
     color: var(--primary-color);
     margin-bottom: 1rem;
 }
-
 .modal-level-display {
     display: flex;
     align-items: center;
@@ -458,14 +450,12 @@ body::after {
     gap: 1rem;
     margin: 1.5rem 0;
 }
-
 .modal-ratings-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     margin: 1.5rem 0;
 }
-
 .modal-rating-item {
     display: flex;
     align-items: center;
@@ -474,18 +464,15 @@ body::after {
     background: rgba(155, 0, 255, 0.1);
     border-radius: 8px;
 }
-
 @media (max-width: 768px) {
     .bot-container {
         flex-direction: column;
         text-align: center;
     }
-    
     .bot-image {
         width: 100px;
         height: 100px;
     }
-    
     .modal-content {
         width: 95%;
         margin: 2% auto;
