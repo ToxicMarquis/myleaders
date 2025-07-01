@@ -244,12 +244,6 @@ body::after {
     0%, 100% { opacity: 0.3; transform: scale(1); }
     50% { opacity: 0.6; transform: scale(1.1); }
 }
-.bot-info {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
-}
 .bot-info h2 {
     color: var(--primary-color);
     margin-bottom: 1rem;
@@ -266,8 +260,10 @@ body::after {
 }
 .bot-link {
     display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
-    gap: 0.5rem;
+    gap: 2.5rem;
     padding: 1rem 2rem;
     background: linear-gradient(135deg, #480072, #a100ff);
     color: white;
