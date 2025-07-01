@@ -875,6 +875,7 @@ body::after {
 }
 .modal-player-avatar {
     position: absolute;
+    z-index: 10;
     top: 100px;
     left: 50%;
     transform: translateX(-50%);
