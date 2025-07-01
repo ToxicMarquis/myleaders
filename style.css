@@ -266,15 +266,15 @@ body::after {
     background: linear-gradient(135deg, #480072, #a100ff);
     color: white;
     text-decoration: none;
-    border-radius: 12px;
+    border-radius: 8px;
     margin-top: 2rem;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(180,136,204,0.3);
+    box-shadow: 0 4px 12px rgba(180,136,204,0.3);
 }
 .bot-link:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(180,136,204,0.4);
+    box-shadow: 0 6px 20px rgba(180,136,204,0.4);
 }
 
 /* Эпические рамки для модального окна */
