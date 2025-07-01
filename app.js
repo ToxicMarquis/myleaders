@@ -499,133 +499,72 @@ function renderPlayersTable(players, page = 1) {
 }
 
 // Показать модальное окно профиля игрока
-async function showPlayerModal(username) {
-    const modal = document.getElementById('playerModal');
-    const modalContent = document.getElementById('modalContent');
-    const modalWrapper = document.getElementById('modalContentWrapper');
-    const epicEffects = document.getElementById('modalEpicEffects');
+async function showModal(user){
+  const modal=$('#playerModal');
+  const wrapper=$('#modalContentWrapper');
+  const epic=$('#modalEpicEffects');
+  const cont=$('#modalContent');
+  cont.innerHTML='<p style="padding:2rem;text-align:center">Загрузка…</p>';
+  modal.style.display='block';
 
-    if (!modal || !modalContent) return;
-
-    modalContent.innerHTML = '<p style="padding: 2rem; text-align: center;">Загрузка профиля игрока...</p>';
-    modal.style.display = 'block';
-
-    try {
-        // Найдем игрока в наших данных
-        const player = allPlayerData.find(p => p.username === username);
-        if (!player) {
-            throw new Error('Игрок не найден');
-        }
-
-        // Загружаем пользовательские данные
-        const userData = await loadUserData(username);
-        
-        // Получаем дополнительные данные
-        const title = await getPlayerTitle(username);
-        const ratings = await getPlayerRatings(username);
-
-        // Определяем тип рамки
-        const frameType = getFrameType(player.level);
-        
-        // Очищаем предыдущие классы рамок
-        modalWrapper.className = 'modal-content';
-        epicEffects.className = 'modal-epic-effects';
-        
-        // Устанавливаем цвет рамки
-        if (userData?.color_frame) {
-            document.documentElement.style.setProperty('--frame-color', userData.color_frame);
-            document.documentElement.style.setProperty('--epic-color', userData.color_frame);
-        }
-
-        // Добавляем класс рамки
-        if (frameType !== 'none') {
-            modalWrapper.classList.add(`frame-${frameType}`);
-        }
-
-        // Активируем эпические эффекты для уровня 25+
-        if (frameType === 'epic') {
-            epicEffects.classList.add('level-25');
-        }
-
-        // Создаем HTML профиля
-        const profileHTML = `
-            <div class="modal-player-profile">
-                ${userData?.banner ? `
-                    <img src="${userData.banner}" alt="Баннер ${player.username}" class="modal-player-banner">
-                ` : `
-                    <div class="modal-player-banner" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-light));"></div>
-                `}
-                
-                ${userData?.avatar ? `
-                    <img src="${userData.avatar}" alt="Аватар ${player.username}" class="modal-player-avatar">
-                ` : `
-                    <div class="modal-player-avatar" style="background: var(--card-bg); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
-                        ${player.username.charAt(0).toUpperCase()}
-                    </div>
-                `}
-                
-                <div class="modal-player-info">
-                    <h2 class="modal-player-name">
-                        ${title ? `<span class="player-title">${title}</span> ` : ''}
-                        ${player.username}
-                    </h2>
-                    
-                    <div class="modal-level-display">
-                        <span class="level-text">Уровень ${player.level}</span>
-                        <div class="experience-bar">
-                            <div class="experience-fill" style="width: ${player.progressPercent}%;"></div>
-                        </div>
-                        <span class="experience-value">${player.currentLevelExp} / ${player.nextLevelExp}</span>
-                    </div>
-
-                    <div class="modal-ratings-grid">
-                        <div class="modal-rating-item">
-                            <span class="rating-icon bullet"></span>
-                            <span>Bullet: ${ratings.bullet}</span>
-                        </div>
-                        <div class="modal-rating-item">
-                            <span class="rating-icon blitz"></span>
-                            <span>Blitz: ${ratings.blitz}</span>
-                        </div>
-                        <div class="modal-rating-item">
-                            <span class="rating-icon rapid"></span>
-                            <span>Rapid: ${ratings.rapid}</span>
-                        </div>
-                        <div class="modal-rating-item">
-                            <span class="rating-icon classical"></span>
-                            <span>Classical: ${ratings.classical}</span>
-                        </div>
-                    </div>
-
-                    <div style="margin: 1.5rem 0;">
-                        <p><strong>Первый турнир:</strong> ${player.first_tournament}</p>
-                        <p><strong>Всего турниров:</strong> ${player.tournaments_count}</p>
-                        <p><strong>Средний перформанс:</strong> ${player.avg_performance}</p>
-                    </div>
-
-                    <div class="modal-links">
-                        <a href="https://lichess.org/@/${player.username}" target="_blank" class="lichess-link">
-                            <i class="fas fa-external-link-alt"></i> Открыть профиль на Lichess
-                        </a>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        modalContent.innerHTML = profileHTML;
-
-    } catch (error) {
-        modalContent.innerHTML = `
-            <div style="padding: 2rem; text-align: center;">
-                <h2>${username}</h2>
-                <p>Не удалось загрузить профиль игрока.</p>
-                <a href="https://lichess.org/@/${username}" target="_blank" class="lichess-link">
-                    <i class="fas fa-external-link-alt"></i> Открыть профиль на Lichess
-                </a>
-            </div>
-        `;
+  try{
+    const p = allPlayers.find(x=>x.username===user);
+    if(!p) throw 'player not found';
+    const json = await userJson(user);
+    const title=await getTitle(user);
+    const r = await getRatings(user);
+    // ---------- оформление ----------
+    const f=frameType(p.level);
+    wrapper.className='modal-content'+(f?` frame-${f}`:'');
+    epic.className='modal-epic-effects'+(f==='epic'?' level-25':'');
+    if(json?.color_frame){
+      document.documentElement.style.setProperty('--frame-color',json.color_frame);
+      document.documentElement.style.setProperty('--epic-color',json.color_frame);
+    }else{
+      document.documentElement.style.removeProperty('--frame-color');
+      document.documentElement.style.removeProperty('--epic-color');
     }
+    // ---------- html ----------
+    cont.innerHTML=`
+      <div class="modal-player-profile">
+        ${json?.banner?`<img src="${json.banner}" class="modal-player-banner">`
+                      :'<div class="modal-player-banner" style="height:150px;background:linear-gradient(135deg,var(--primary-color),var(--primary-light));"></div>'}
+        ${json?.avatar?`<img src="${json.avatar}" class="modal-player-avatar">`
+                      :`<div class="modal-player-avatar" style="display:flex;align-items:center;justify-content:center;font-size:2rem;background:var(--card-bg);width:100px;height:100px;border-radius:50%;border:4px solid var(--card-bg);position:absolute;top:100px;left:50%;transform:translateX(-50%)">${user[0]}</div>`}
+        <div class="modal-player-info">
+          <h2 class="modal-player-name">${title?`<span class="player-title">${title}</span> `:''}${user}</h2>
+          <div class="modal-level-display">
+            <span>Уровень ${p.level}</span>
+            <div class="experience-bar"><div class="experience-fill" style="width:${p.pct}%"></div></div>
+            <span>${p.cur}/${p.next}</span>
+          </div>
+          <div class="modal-ratings-grid">
+            <div class="modal-rating-item"><span class="rating-icon bullet"></span>Bullet: ${r.bullet}</div>
+            <div class="modal-rating-item"><span class="rating-icon blitz"></span>Blitz: ${r.blitz}</div>
+            <div class="modal-rating-item"><span class="rating-icon rapid"></span>Rapid: ${r.rapid}</div>
+            <div class="modal-rating-item"><span class="rating-icon classical"></span>Classical: ${r.classical}</div>
+          </div>
+          <p><strong>Первый турнир:</strong> ${p.first_tournament}</p>
+          <p><strong>Всего турниров:</strong> ${p.tournaments_count}</p>
+          <p><strong>Средний перформанс:</strong> ${p.avg_performance}</p>
+          <a class="lichess-link" href="https://lichess.org/@/${user}" target="_blank"><i class="fas fa-external-link-alt"></i> Профиль Lichess</a>
+        </div>
+      </div>`;
+  }catch(e){
+    cont.innerHTML='<p style="padding:2rem;text-align:center">Не удалось загрузить данные игрока.</p>';
+  }
 }
+/* закрыть */
+$('.close')?.addEventListener('click',()=>{
+  $('#playerModal').style.display='none';
+  $('#modalContentWrapper').className='modal-content';
+  $('#modalEpicEffects').className='modal-epic-effects';
+  document.documentElement.style.removeProperty('--frame-color');
+  document.documentElement.style.removeProperty('--epic-color');
+});
+window.addEventListener('click',e=>{
+  if(e.target.id==='playerModal') $('.close')?.click();
+});
 
 // Инициализация приложения
 async function initApp() {
@@ -713,17 +652,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderPlayersTable(allPlayerData, currentPage + 1);
             }
         });
-    }
-
-    // Закрытие модального окна
-    const closeBtn = document.querySelector('.close');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-        document.getElementById('playerModal').style.display = 'none';
-        document.getElementById('modalEpicEffects').className = 'modal-epic-effects';
-        document.getElementById('modalContentWrapper').className = 'modal-content';
-        document.documentElement.style.removeProperty('--frame-color');
-        document.documentElement.style.removeProperty('--epic-color');
-      });
     }
 });
