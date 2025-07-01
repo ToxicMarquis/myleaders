@@ -556,7 +556,7 @@ async function showPlayerModal(username) {
                 
                 <div class="modal-player-info">
                     <h2 class="modal-player-name">
-                        ${title ? `<span class="player-title">${title}</span> ` : ''}
+                        ${title ? `<span class="modal-player-title">${title}</span> ` : ''}
                         ${player.username}
                     </h2>
                     
