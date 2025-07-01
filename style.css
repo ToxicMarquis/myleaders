@@ -899,6 +899,16 @@ body::after {
     padding: 3rem 2rem 2rem;
     text-align: center;
 }
+.modal-player-title {
+    font-weight: 700;
+    color: var(--primary-color);
+    background: rgba(155, 0, 255, 0.1);
+    position: relative;
+    top: -4px;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
 .modal-player-name {
     font-size: 1.8rem;
     font-weight: bold;
