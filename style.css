@@ -260,7 +260,7 @@ body::after {
 }
 .bot-links {
     display: flex;
-    justify-content: left;
+    justify-content: center;
     gap: 1.5rem;
     flex-wrap: wrap;
     margin-top: 2rem;
