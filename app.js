@@ -1,6 +1,6 @@
 // Константы системы уровней и конфигурации
 const BASE_EXPERIENCE = 50;
-const LEVEL_MULTIPLIER = 1.7;
+const LEVEL_MULTIPLIER = 1.5;
 
 // Переменные для работы с данными
 let allPlayerData = [];
@@ -8,13 +8,14 @@ let currentPage = 1;
 const playersPerPage = 10;
 const teamName = 'unicorn7love-fun-club';
 
-// Получаем токен из переменной окружения (устанавливается через GitHub Actions)
+// Получаем токен из переменной окружения
 const LICHESS_TOKEN = window.LICHESS_API_TOKEN || '';
 
 // Настройки GitHub API
 const GITHUB_OWNER = 'toxicmarquis';
 const GITHUB_REPO = 'uni7club';
 const TOURNAMENTS_FOLDER = 'tournaments';
+const USER_DATA_FOLDER = 'user';
 
 // База титулов игроков
 const TITLE_DATABASE = {
@@ -24,33 +25,32 @@ const TITLE_DATABASE = {
 };
 
 // Настройка темной/светлой темы
-const themeToggle = document.getElementById('theme-toggle');
-
-// Применяем сохраненную тему при загрузке
 function initTheme() {
-    if (localStorage.getItem('theme')) {
-        document.documentElement.setAttribute('data-theme', localStorage.getItem('theme'));
-    }
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) return;
+    
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
     updateThemeIcon();
+    
+    themeToggle.addEventListener('click', switchTheme);
 }
 
 function switchTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
-    if (currentTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-    }
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
     updateThemeIcon();
 }
 
 function updateThemeIcon() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) return;
+    
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    if (themeToggle) {
-        themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-    }
+    themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
 }
 
 // Навигация между секциями
@@ -91,7 +91,6 @@ async function getTournamentFiles() {
 
         const files = await response.json();
 
-        // Фильтруем только CSV файлы, начинающиеся с lichess_tournament_
         const csvFiles = files
             .filter(file => 
                 file.type === 'file' && 
@@ -108,7 +107,6 @@ async function getTournamentFiles() {
 
     } catch (error) {
         console.error('Ошибка при получении списка файлов:', error);
-        // Fallback на ручной список
         return [{
             name: 'lichess_tournament_2025.06.26_eeO2WrZ0_lichess-liga-5b.csv',
             downloadUrl: `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${TOURNAMENTS_FOLDER}/lichess_tournament_2025.06.26_eeO2WrZ0_lichess-liga-5b.csv`
@@ -167,6 +165,21 @@ async function loadCSV(fileInfo) {
     }
 }
 
+// Функция для загрузки пользовательских данных
+async function loadUserData(username) {
+    const fileName = username.toLowerCase() + '.json';
+    const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${USER_DATA_FOLDER}/${fileName}`;
+
+    try {
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        return await res.json();
+    } catch (e) {
+        console.warn('user json not found:', username);
+        return null;
+    }
+}
+
 // Функция для вычисления уровня и опыта
 function calculateLevel(totalScore, attendanceCount, avgPerformance) {
     const experience = totalScore * 10 + attendanceCount * 25 + Math.floor(avgPerformance / 100);
@@ -194,14 +207,20 @@ function calculateLevel(totalScore, attendanceCount, avgPerformance) {
     };
 }
 
+// Функция определения типа рамки по уровню
+function getFrameType(level) {
+    if (level >= 20) return 'epic';
+    if (level >= 15) return 'colored';
+    if (level >= 10) return 'basic';
+    return 'none';
+}
+
 // Функция для получения титула игрока
 async function getPlayerTitle(username) {
-    // Сначала проверяем локальную базу
     if (TITLE_DATABASE.hasOwnProperty(username)) {
         return TITLE_DATABASE[username];
     }
 
-    // Если нет в базе, запрашиваем у Lichess
     try {
         const headers = {};
         if (LICHESS_TOKEN) {
@@ -364,11 +383,9 @@ async function renderTop5Players(players) {
         const rankElement = document.querySelector(`.top-player[data-rank="${i + 1}"]`);
 
         if (rankElement) {
-            // Получаем титул и рейтинги
             const title = await getPlayerTitle(player.username);
             const ratings = await getPlayerRatings(player.username);
 
-            // Обновляем элементы
             const titleElement = rankElement.querySelector('.player-title');
             const nameElement = rankElement.querySelector('.player-name');
             const levelElement = rankElement.querySelector('.level-number');
@@ -390,7 +407,6 @@ async function renderTop5Players(players) {
             if (expValueElement) expValueElement.textContent = `${player.progressPercent}%`;
             if (firstDateElement) firstDateElement.textContent = player.first_tournament;
 
-            // Обновляем рейтинги (по порядку: bullet, blitz, rapid, classical)
             if (ratingElements.length >= 4) {
                 ratingElements[0].textContent = ratings.bullet;
                 ratingElements[1].textContent = ratings.blitz;
@@ -423,7 +439,7 @@ function renderPlayersTable(players, page = 1) {
                 return b.tournaments_count - a.tournaments_count;
             case 'total_score':
                 return b.total_score - a.total_score;
-            default: // utility
+            default:
                 return b.utility_coefficient - a.utility_coefficient;
         }
     });
@@ -464,7 +480,6 @@ function renderPlayersTable(players, page = 1) {
 
     currentPage = page;
 
-    // Добавляем обработчики кликов по именам игроков
     document.querySelectorAll('.player-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -478,74 +493,122 @@ function renderPlayersTable(players, page = 1) {
 async function showPlayerModal(username) {
     const modal = document.getElementById('playerModal');
     const modalContent = document.getElementById('modalContent');
+    const modalWrapper = document.getElementById('modalContentWrapper');
+    const epicEffects = document.getElementById('modalEpicEffects');
 
     if (!modal || !modalContent) return;
 
-    modalContent.innerHTML = '<p>Загрузка профиля игрока...</p>';
+    modalContent.innerHTML = '<p style="padding: 2rem; text-align: center;">Загрузка профиля игрока...</p>';
     modal.style.display = 'block';
 
     try {
-        // Найдем игрока в наших данных
         const player = allPlayerData.find(p => p.username === username);
-
         if (!player) {
             throw new Error('Игрок не найден');
         }
 
-        // Получаем дополнительные данные
+        const userData = await loadUserData(username);
         const title = await getPlayerTitle(username);
         const ratings = await getPlayerRatings(username);
 
-        modalContent.innerHTML = `
-            <div class="modal-player-info">
-                <h2>
-                    ${title ? `<span class="player-title">${title}</span> ` : ''}
-                    <span class="player-name">${player.username}</span>
-                </h2>
-                <div class="modal-level-info">
-                    <div class="level-info">
-                        <span class="level-text">Уровень <span class="level-number">${player.level}</span></span>
+        const frameType = getFrameType(player.level);
+        
+        // Очищаем предыдущие классы
+        if (modalWrapper) {
+            modalWrapper.className = 'modal-content';
+            if (frameType !== 'none') {
+                modalWrapper.classList.add(`frame-${frameType}`);
+            }
+        }
+        
+        if (epicEffects) {
+            epicEffects.className = 'modal-epic-effects';
+            if (frameType === 'epic') {
+                epicEffects.classList.add('level-20');
+            }
+        }
+
+        // Устанавливаем цвет рамки
+        if (userData?.color_frame) {
+            document.documentElement.style.setProperty('--frame-color', userData.color_frame);
+            document.documentElement.style.setProperty('--epic-color', userData.color_frame);
+        }
+
+        const profileHTML = `
+            <div class="modal-player-profile">
+                ${userData?.banner ? `
+                    <img src="${userData.banner}" alt="Баннер ${player.username}" class="modal-player-banner">
+                ` : `
+                    <div class="modal-player-banner" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); height: 150px;"></div>
+                `}
+                
+                ${userData?.avatar ? `
+                    <img src="${userData.avatar}" alt="Аватар ${player.username}" class="modal-player-avatar">
+                ` : `
+                    <div class="modal-player-avatar" style="background: var(--card-bg); display: flex; align-items: center; justify-content: center; font-size: 2rem; width: 100px; height: 100px; border-radius: 50%; position: absolute; top: 100px; left: 50%; transform: translateX(-50%); border: 4px solid var(--card-bg);">
+                        ${player.username.charAt(0).toUpperCase()}
+                    </div>
+                `}
+                
+                <div class="modal-player-info">
+                    <h2 class="modal-player-name">
+                        ${title ? `<span class="player-title">${title}</span> ` : ''}
+                        ${player.username}
+                    </h2>
+                    
+                    <div class="modal-level-display">
+                        <span class="level-text">Уровень ${player.level}</span>
                         <div class="experience-bar">
                             <div class="experience-fill" style="width: ${player.progressPercent}%;"></div>
                         </div>
-                        <span class="experience-value" style="color: #666;">${player.progressPercent}%</span>
+                        <span class="experience-value">${player.currentLevelExp} / ${player.nextLevelExp}</span>
                     </div>
-                </div>
-                <div class="modal-ratings">
-                    <div class="modal-rating-item">
-                        <span class="rating-icon bullet"></span>
-                        <span>Bullet: ${ratings.bullet}</span>
+
+                    <div class="modal-ratings-grid">
+                        <div class="modal-rating-item">
+                            <span class="rating-icon bullet"></span>
+                            <span>Bullet: ${ratings.bullet}</span>
+                        </div>
+                        <div class="modal-rating-item">
+                            <span class="rating-icon blitz"></span>
+                            <span>Blitz: ${ratings.blitz}</span>
+                        </div>
+                        <div class="modal-rating-item">
+                            <span class="rating-icon rapid"></span>
+                            <span>Rapid: ${ratings.rapid}</span>
+                        </div>
+                        <div class="modal-rating-item">
+                            <span class="rating-icon classic"></span>
+                            <span>Classic: ${ratings.classical}</span>
+                        </div>
                     </div>
-                    <div class="modal-rating-item">
-                        <span class="rating-icon blitz"></span>
-                        <span>Blitz: ${ratings.blitz}</span>
+
+                    <div style="margin: 1.5rem 0;">
+                        <p><strong>Первый турнир:</strong> ${player.first_tournament}</p>
+                        <p><strong>Всего турниров:</strong> ${player.tournaments_count}</p>
+                        <p><strong>Средний перформанс:</strong> ${player.avg_performance}</p>
                     </div>
-                    <div class="modal-rating-item">
-                        <span class="rating-icon rapid"></span>
-                        <span>Rapid: ${ratings.rapid}</span>
+
+                    <div class="modal-links">
+                        <a href="https://lichess.org/@/${player.username}" target="_blank" class="lichess-link">
+                            <i class="fas fa-external-link-alt"></i> Открыть профиль на Lichess
+                        </a>
                     </div>
-                    <div class="modal-rating-item">
-                        <span class="rating-icon classic"></span>
-                        <span>Classical: ${ratings.classical}</span>
-                    </div>
-                </div>
-                <div class="modal-date">
-                    <p><strong>Первый турнир:</strong> ${player.first_tournament}</p>
-                </div>
-                <div class="modal-links">
-                    <a href="https://lichess.org/@/${player.username}" target="_blank" class="lichess-link">
-                        <i class="fas fa-external-link-alt"></i> Открыть профиль на Lichess
-                    </a>
                 </div>
             </div>
         `;
+
+        modalContent.innerHTML = profileHTML;
+
     } catch (error) {
         modalContent.innerHTML = `
-            <h2>${username}</h2>
-            <p>Не удалось загрузить дополнительную информацию о профиле игрока.</p>
-            <a href="https://lichess.org/@/${username}" target="_blank" class="lichess-link">
-                <i class="fas fa-external-link-alt"></i> Открыть профиль на Lichess
-            </a>
+            <div style="padding: 2rem; text-align: center;">
+                <h2>${username}</h2>
+                <p>Не удалось загрузить профиль игрока.</p>
+                <a href="https://lichess.org/@/${username}" target="_blank" class="lichess-link">
+                    <i class="fas fa-external-link-alt"></i> Открыть профиль на Lichess
+                </a>
+            </div>
         `;
     }
 }
@@ -555,11 +618,9 @@ async function initApp() {
     try {
         console.log('Инициализация приложения...');
 
-        // Получаем список CSV файлов из GitHub
         const tournamentFiles = await getTournamentFiles();
         console.log('Найдены файлы турниров:', tournamentFiles);
 
-        // Загружаем все файлы
         const allRawData = [];
         for (const fileInfo of tournamentFiles) {
             const data = await loadCSV(fileInfo);
@@ -568,15 +629,11 @@ async function initApp() {
 
         console.log('Загружено записей:', allRawData.length);
 
-        // Агрегируем данные игроков
         allPlayerData = aggregatePlayerData(allRawData);
         console.log('Обработано игроков:', allPlayerData.length);
 
-        // Отображаем данные
         await renderTop5Players(allPlayerData);
         renderPlayersTable(allPlayerData);
-
-        // Запускаем трансляцию
         await initLiveGame();
 
         console.log('Инициализация завершена');
@@ -586,18 +643,13 @@ async function initApp() {
     }
 }
 
-// Обработчики событий
+// Инициализация при загрузке DOM
 document.addEventListener('DOMContentLoaded', () => {
     // Инициализация темы
     initTheme();
 
     // Инициализация навигации
     initNavigation();
-
-    // Обработчик темной/светлой темы
-    if (themeToggle) {
-        themeToggle.addEventListener('click', switchTheme);
-    }
 
     // Инициализация приложения
     initApp();
@@ -643,14 +695,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeButton) {
         closeButton.addEventListener('click', () => {
             const modal = document.getElementById('playerModal');
+            const epicEffects = document.getElementById('modalEpicEffects');
+            const modalWrapper = document.getElementById('modalContentWrapper');
+
             if (modal) modal.style.display = 'none';
+            if (epicEffects) epicEffects.className = 'modal-epic-effects';
+            if (modalWrapper) modalWrapper.className = 'modal-content';
+
+            document.documentElement.style.removeProperty('--frame-color');
+            document.documentElement.style.removeProperty('--epic-color');
         });
     }
 
     window.addEventListener('click', (e) => {
         const modal = document.getElementById('playerModal');
         if (modal && e.target === modal) {
-            modal.style.display = 'none';
+            closeButton.click();
         }
     });
 });
