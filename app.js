@@ -579,7 +579,7 @@ async function showPlayerModal(username) {
                         </div>
                         <div class="modal-rating-item">
                             <span class="rating-icon classic"></span>
-                            <span>Classical: ${ratings.classical}</span>
+                            <span>Classic: ${ratings.classical}</span>
                         </div>
                     </div>
 
