@@ -273,7 +273,7 @@ body::after {
     align-items: center;
     gap: 1.5rem;
     padding: 1rem 2rem;
-    background: linear-gradient(135deg, #424242, #dddddd);
+    background: linear-gradient(135deg, #480072, #a100ff);
     color: white;
     text-decoration: none;
     border-radius: 12px;
