@@ -168,20 +168,19 @@ async function loadCSV(fileInfo) {
     }
 }
 
-// Функция для загрузки пользовательских данных
+// Функция для загрузки json
 async function loadUserData(username) {
-    try {
-        const fileName = username.toLowerCase() + '.json';
-        const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${USER_DATA_FOLDER}/${fileName}`;
-        
-        const response = await fetch(url);
-        if (response.ok) {
-            return await response.json();
-        }
-    } catch (error) {
-        console.log('Пользовательские данные не найдены для:', username);
-    }
+  const fileName = username.toLowerCase() + '.json';
+  const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${USER_DATA_FOLDER}/${fileName}`;
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (e) {
+    console.warn('user json not found:', username);
     return null;
+  }
 }
 
 // Функция для вычисления уровня и опыта
@@ -717,17 +716,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Закрытие модального окна
-    const closeButton = document.querySelector('.close').onclick = () => {
-        const modal = document.getElementById('playerModal');
-        const epicEffects = document.getElementById('modalEpicEffects');
-        const modalWrapper = document.getElementById('modalContentWrapper');
-    
-        modal.style.display = 'none';
-        epicEffects.className = 'modal-epic-effects';
-        modalWrapper.className = 'modal-content';
-    
-        // Сбрасываем кастомные цвета
+    const closeBtn = document.querySelector('.close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+        document.getElementById('playerModal').style.display = 'none';
+        document.getElementById('modalEpicEffects').className = 'modal-epic-effects';
+        document.getElementById('modalContentWrapper').className = 'modal-content';
         document.documentElement.style.removeProperty('--frame-color');
         document.documentElement.style.removeProperty('--epic-color');
-    };
+      });
+    }
 });
