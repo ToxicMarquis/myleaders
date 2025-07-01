@@ -260,10 +260,10 @@ body::after {
 }
 .bot-links {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     gap: 1.5rem;
     flex-wrap: wrap;
-    margin-bottom: 2rem;
+    margin-top: 2rem;
 }
 .bot-btn {
     display: inline-flex;
