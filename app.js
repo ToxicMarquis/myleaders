@@ -524,7 +524,7 @@ async function showPlayerModal(username) {
         }
 
         const profileHTML = `
-            ${frameType} ? ` <div id="modalEpicEffects" class="modal-epic-effect"></div> ` : ''}
+            ${frameType ? ` <div id="modalEpicEffects" class="modal-epic-effect level-20"></div> ` : ''}
             <div id="modalContentWrapper" class="modal-content frame-${frameType}">
                 <div class="modal-player-profile">
                     ${userData?.banner ? `
@@ -543,7 +543,7 @@ async function showPlayerModal(username) {
                 
                     <div class="modal-player-info">
                         <h2 class="modal-player-name">
-                            ${title ? `<span class="modal-player-title">${title}</span> ` : ''}
+                            ${title ? ` <span class="modal-player-title">${title}</span> ` : ''}
                             ${player.username}
                         </h2>
                     
