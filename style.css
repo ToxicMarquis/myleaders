@@ -268,7 +268,7 @@ body::after {
     font-size: 1.1rem;
 }
 
-.bot-links {
+.bot-link {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -283,7 +283,7 @@ body::after {
     box-shadow: 0 4px 15px rgba(0,136,204,0.3);
 }
 
-.bot-links:hover {
+.bot-link:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(0,136,204,0.4);
 }
