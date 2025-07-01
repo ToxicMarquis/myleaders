@@ -268,21 +268,22 @@ body::after {
     font-size: 1.1rem;
 }
 
-.bot-link {
+.bot-links {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     padding: 1rem 2rem;
-    background: linear-gradient(135deg, #0088cc, #00a8ff);
+    background: linear-gradient(135deg, #424242, #dddddd);
     color: white;
     text-decoration: none;
     border-radius: 12px;
+    margin-bottom: 2rem;
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0,136,204,0.3);
 }
 
-.bot-link:hover {
+.bot-links:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(0,136,204,0.4);
 }
