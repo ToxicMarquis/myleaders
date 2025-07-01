@@ -507,6 +507,7 @@ body::after {
     margin-bottom: 0.5rem;
     padding-left: 1rem;
     position: relative;
+    font-size: 1.1rem;
 }
 .instruction-card li::before {
     content: '•';
