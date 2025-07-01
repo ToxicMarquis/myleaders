@@ -524,7 +524,7 @@ async function showPlayerModal(username) {
         if (epicEffects) {
             epicEffects.className = 'modal-epic-effects';
             if (frameType === 'epic') {
-                epicEffects.classList.add('level-25');
+                epicEffects.classList.add('level-20');
             }
         }
 
