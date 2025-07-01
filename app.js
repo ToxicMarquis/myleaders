@@ -539,70 +539,67 @@ async function showPlayerModal(username) {
         }
 
         const profileHTML = `
-            <div class="modal-player-profile">
-                ${userData?.banner ? `
-                    <img src="${userData.banner}" alt="Баннер ${player.username}" class="modal-player-banner">
-                ` : `
-                    <div class="modal-player-banner" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); height: 150px;"></div>
-                `}
+            <div id="modalEpicEffects" class="${epicEffects}"></div>
+            <div id="modalContentWrapper" class="${modalWrapper}">
+                <div class="modal-player-profile">
+                    ${userData?.banner ? `
+                        <img src="${userData.banner}" alt="Баннер ${player.username}" class="modal-player-banner">
+                    ` : `
+                        <div class="modal-player-banner" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); height: 150px;"></div>
+                    `}
                 
-                ${userData?.avatar ? `
-                    <img src="${userData.avatar}" alt="Аватар ${player.username}" class="modal-player-avatar">
-                ` : `
-                    <div class="modal-player-avatar" style="background: var(--card-bg); display: flex; align-items: center; justify-content: center; font-size: 2rem; width: 100px; height: 100px; border-radius: 50%; position: absolute; top: 100px; left: 50%; transform: translateX(-50%); border: 4px solid var(--card-bg);">
-                        ${player.username.charAt(0).toUpperCase()}
-                    </div>
-                `}
+                    ${userData?.avatar ? `
+                        <img src="${userData.avatar}" alt="Аватар ${player.username}" class="modal-player-avatar">
+                    ` : `
+                        <div class="modal-player-avatar" style="background: var(--card-bg); display: flex; align-items: center; justify-content: center; font-size: 2rem; width: 100px; height: 100px; border-radius: 50%; position: absolute; top: 100px; left: 50%; transform: translateX(-50%); border: 4px solid var(--card-bg);">
+                            ${player.username.charAt(0).toUpperCase()}
+                        </div>
+                    `}
                 
-                <div class="modal-player-info">
-                    <h2 class="modal-player-name">
-                        ${title ? `<span class="modal-player-title">${title}</span> ` : ''}
-                        ${player.username}${frameType}
-                    </h2>
+                    <div class="modal-player-info">
+                        <h2 class="modal-player-name">
+                            ${title ? `<span class="modal-player-title">${title}</span> ` : ''}
+                            ${player.username}${epicEffects}${modalWrapper}
+                        </h2>
                     
-                    <div class="modal-level-display">
-                        <span class="level-text">Уровень ${player.level}</span>
-                        <div class="experience-bar">
-                            <div class="experience-fill" style="width: ${player.progressPercent}%;"></div>
+                        <div class="modal-level-display">
+                            <span class="level-text">Уровень ${player.level}</span>
+                            <div class="experience-bar">
+                                <div class="experience-fill" style="width: ${player.progressPercent}%;"></div>
+                            </div>
+                            <span class="experience-value">${player.currentLevelExp} / ${player.nextLevelExp}</span>
                         </div>
-                        <span class="experience-value">${player.currentLevelExp} / ${player.nextLevelExp}</span>
-                    </div>
 
-                    <div class="modal-ratings-grid">
-                        <div class="modal-rating-item">
-                            <span class="rating-icon bullet"></span>
-                            <span>Bullet: ${ratings.bullet}</span>
+                        <div class="modal-ratings-grid">
+                            <div class="modal-rating-item">
+                                <span class="rating-icon bullet"></span>
+                                <span>Bullet: ${ratings.bullet}</span>
+                            </div>
+                            <div class="modal-rating-item">
+                                <span class="rating-icon blitz"></span>
+                                <span>Blitz: ${ratings.blitz}</span>
+                            </div>
+                            <div class="modal-rating-item">
+                                <span class="rating-icon rapid"></span>
+                                <span>Rapid: ${ratings.rapid}</span>
+                            </div>
+                            <div class="modal-rating-item">
+                                <span class="rating-icon classic"></span>
+                                <span>Classic: ${ratings.classical}</span>
+                            </div>
                         </div>
-                        <div class="modal-rating-item">
-                            <span class="rating-icon blitz"></span>
-                            <span>Blitz: ${ratings.blitz}</span>
+
+                        <div style="margin: 1.5rem 0;">
+                            <p><strong>Первый турнир:</strong> ${player.first_tournament}</p>
+                            <p><strong>Всего турниров:</strong> ${player.tournaments_count}</p>
+                            <p><strong>Средний перформанс:</strong> ${player.avg_performance}</p>
                         </div>
-                        <div class="modal-rating-item">
-                            <span class="rating-icon rapid"></span>
-                            <span>Rapid: ${ratings.rapid}</span>
+
+                        <div class="modal-links">
+                            <a href="https://lichess.org/@/${player.username}" target="_blank" class="lichess-link">
+                                <i class="fas fa-external-link-alt"></i> Открыть профиль на Lichess
+                            </a>
                         </div>
-                        <div class="modal-rating-item">
-                            <span class="rating-icon classic"></span>
-                            <span>Classic: ${ratings.classical}</span>
-                        </div>
-                    </div>
-
-                    <div style="margin: 1.5rem 0;">
-                        <p><strong>Первый турнир:</strong> ${player.first_tournament}</p>
-                        <p><strong>Всего турниров:</strong> ${player.tournaments_count}</p>
-                        <p><strong>Средний перформанс:</strong> ${player.avg_performance}</p>
-                    </div>
-
-                    <div id="modalEpicEffects" class="modal-epic-effects level-20"></div>
-                    <div id="modalContentWrapper" class="modal-content frame-epic">
-                        …ваш профиль…
-                    </div>
-
-
-                    <div class="modal-links">
-                        <a href="https://lichess.org/@/${player.username}" target="_blank" class="lichess-link">
-                            <i class="fas fa-external-link-alt"></i> Открыть профиль на Lichess
-                        </a>
                     </div>
                 </div>
             </div>
