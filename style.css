@@ -260,7 +260,6 @@ body::after {
 }
 .bot-links {
     display: flex;
-    justify-content: center;
     gap: 1.5rem;
     flex-wrap: wrap;
     margin-top: 2rem;
@@ -927,20 +926,6 @@ body::after {
     background: rgba(155, 0, 255, 0.1);
     border-radius: 8px;
 }
-@media (max-width: 768px) {
-    .bot-container {
-        flex-direction: column;
-        text-align: center;
-    }
-    .bot-image {
-        width: 100px;
-        height: 100px;
-    }
-    .modal-content {
-        width: 95%;
-        margin: 2% auto;
-    }
-}
 
 /* Ссылки */
 .lichess-link {
@@ -992,6 +977,18 @@ body::after {
     }
     .ratings {
         justify-content: center;
+    }
+    .bot-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .bot-image {
+        width: 100px;
+        height: 100px;
+    }
+    .modal-content {
+        width: 95%;
+        margin: 2% auto;
     }
 }
 
