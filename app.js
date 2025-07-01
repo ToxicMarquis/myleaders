@@ -1,6 +1,6 @@
 // Константы системы уровней и конфигурации
 const BASE_EXPERIENCE = 50;
-const LEVEL_MULTIPLIER = 1.7;
+const LEVEL_MULTIPLIER = 1.5;
 
 // Переменные для работы с данными
 let allPlayerData = [];
