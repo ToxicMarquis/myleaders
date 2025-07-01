@@ -704,18 +704,6 @@ body::after {
     position: relative;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
-.close {
-    position: absolute;
-    top: 12px;
-    right: 17px;
-    color: var(--text-color);
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-.close:hover {
-    color: var(--primary-color);
-}
 .modal-player-info h2 {
     color: var(--primary-color);
     margin-bottom: 1rem;
@@ -936,6 +924,18 @@ body::after {
     background: rgba(155, 0, 255, 0.1);
     border-radius: 8px;
 }
+.close {
+    position: absolute;
+    top: 12px;
+    right: 17px;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.close:hover {
+    color: var(--primary-color);
+}
 
 /* Ссылки */
 .lichess-link {
@@ -991,6 +991,7 @@ body::after {
     .bot-container {
         flex-direction: column;
         text-align: center;
+        align-items: center;
     }
     .bot-image {
         width: 100px;
