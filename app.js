@@ -516,21 +516,6 @@ async function showPlayerModal(username) {
         const ratings = await getPlayerRatings(username);
 
         const frameType = getFrameType(player.level);
-        
-        // Очищаем предыдущие классы
-        if (modalWrapper) {
-            modalWrapper.className = 'modal-content';
-            if (frameType !== 'none') {
-                modalWrapper.classList.add(`frame-${frameType}`);
-            }
-        }
-        
-        if (epicEffects) {
-            epicEffects.className = 'modal-epic-effects';
-            if (frameType === 'epic') {
-                epicEffects.classList.add('level-20');
-            }
-        }
 
         // Устанавливаем цвет рамки
         if (userData?.color_frame) {
@@ -539,8 +524,8 @@ async function showPlayerModal(username) {
         }
 
         const profileHTML = `
-            <div id="modalEpicEffects" class="${epicEffects}"></div>
-            <div id="modalContentWrapper" class="${modalWrapper}">
+            ${frameType} ? ` <div id="modalEpicEffects" class="modal-epic-effect"></div> ` : ''}
+            <div id="modalContentWrapper" class="modal-content frame-${frameType}">
                 <div class="modal-player-profile">
                     ${userData?.banner ? `
                         <img src="${userData.banner}" alt="Баннер ${player.username}" class="modal-player-banner">
@@ -559,7 +544,7 @@ async function showPlayerModal(username) {
                     <div class="modal-player-info">
                         <h2 class="modal-player-name">
                             ${title ? `<span class="modal-player-title">${title}</span> ` : ''}
-                            ${player.username}${epicEffects}${modalWrapper}
+                            ${player.username}
                         </h2>
                     
                         <div class="modal-level-display">
