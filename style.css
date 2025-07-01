@@ -280,12 +280,12 @@ body::after {
     margin-top: 2rem;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,136,204,0.3);
+    box-shadow: 0 4px 15px rgba(180,136,204,0.3);
 }
 
 .bot-link:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,136,204,0.4);
+    box-shadow: 0 8px 25px rgba(180,136,204,0.4);
 }
 
 /* Эпические рамки для модального окна */
