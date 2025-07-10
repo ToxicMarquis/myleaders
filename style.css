@@ -929,7 +929,7 @@ body::after {
 }
 .close {
     position: absolute;
-    z-index: 10;
+    z-index: 100;
     top: 12px;
     right: 17px;
     color: var(--text-color);
