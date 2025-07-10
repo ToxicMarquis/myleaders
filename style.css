@@ -796,7 +796,7 @@ body::after {
 .modal-content {
     position: relative;
     background: var(--card-bg);
-    margin: 5% auto;
+    margin: 2% auto;
     padding: 0;
     border-radius: 20px;
     width: 90%;
