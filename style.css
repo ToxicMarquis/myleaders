@@ -869,14 +869,14 @@ body::after {
     position: relative;
     z-index: 9;
     width: 100%;
-    height: 150px;
+    height: 120px;
     object-fit: cover;
     border-radius: 16px 16px 0 0;
 }
 .modal-player-avatar {
     position: absolute;
     z-index: 10;
-    top: 100px;
+    top: 70px;
     left: 50%;
     transform: translateX(-50%);
     width: 100px;
@@ -1003,10 +1003,6 @@ body::after {
     .bot-image {
         width: 100px;
         height: 100px;
-    }
-    .modal-content {
-        width: 95%;
-        margin: 2% auto;
     }
 }
 
