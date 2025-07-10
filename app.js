@@ -1,17 +1,14 @@
 // Константы системы уровней и конфигурации
 const BASE_EXPERIENCE = 50;
-const LEVEL_MULTIPLIER = 1.5;
+const LEVEL_MULTIPLIER = 1.1;
 
-// Переменные для работы с данными
 let allPlayerData = [];
 let currentPage = 1;
 const playersPerPage = 10;
 const teamName = 'unicorn7love-fun-club';
 
-// Получаем токен из переменной окружения
 const LICHESS_TOKEN = window.LICHESS_API_TOKEN || '';
 
-// Настройки GitHub API
 const GITHUB_OWNER = 'toxicmarquis';
 const GITHUB_REPO = 'uni7club';
 const TOURNAMENTS_FOLDER = 'tournaments';
@@ -441,8 +438,6 @@ function renderPlayersTable(players, page = 1) {
                 return b.avg_performance - a.avg_performance;
             case 'tournaments_count':
                 return b.tournaments_count - a.tournaments_count;
-            case 'total_score':
-                return b.total_score - a.total_score;
             default:
                 return b.utility_coefficient - a.utility_coefficient;
         }
