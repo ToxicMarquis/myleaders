@@ -796,10 +796,10 @@ body::after {
 .modal-content {
     position: relative;
     background: var(--card-bg);
-    margin: 5% auto;
+    margin: 2.5% auto;
     padding: 0;
-    border-radius: 20px;
-    width: 90%;
+    border-radius: 25px;
+    width: 95%;
     max-width: 600px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     overflow: hidden;
