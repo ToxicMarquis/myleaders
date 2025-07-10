@@ -490,10 +490,10 @@ body::after {
 }
 .first-tournament {
     font-size: 0.9rem;
-    color: #666;
+    color: #444;
 }
 .first-date {
-    color: #666;
+    color: #444;
 }
 
 /* Таблица игроков */
