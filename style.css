@@ -70,7 +70,7 @@ body::after {
     padding: 1rem;
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 4;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
 }
