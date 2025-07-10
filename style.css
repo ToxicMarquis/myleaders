@@ -887,7 +887,7 @@ body::after {
     box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
 .modal-player-info {
-    padding: 1rem 2rem 2rem;
+    padding: 3rem 2rem 2rem;
     text-align: center;
 }
 .modal-player-title {
@@ -1025,10 +1025,5 @@ body::after {
     }
     .top-player {
         padding: 1rem;
-    }
-    .rank-badge {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
     }
 }
