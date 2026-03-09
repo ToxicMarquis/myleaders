@@ -4,9 +4,992 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unicorn7Love Fun Club</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+:root {
+    --primary-color: #9B00FF;
+    --primary-light: #BD7EFF;
+    --primary-dark: #7A00CC;
+    --background-color: #ffffff;
+    --text-color: #111111;
+    --card-bg: #f8f9fa;
+    --accent-light: #e6ccff;
+    --border-color: #e0e0e0;
+    --overlay-color: rgba(0, 0, 0, 0.15);
+}
+[data-theme='dark'] {
+    --background-color: #0f0f0f;
+    --text-color: #e0e0e0;
+    --card-bg: #1a1a1a;
+    --accent-light: #4b2d7f;
+    --border-color: #333333;
+    --overlay-color: rgba(0, 0, 0, 0.4);
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('img/chess_bg.png') repeat;
+    background-size: 200px 200px;
+    z-index: -2;
+}
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--overlay-color);
+    z-index: -1;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.container h1 {
+    color: var(--primary-color);
+}
+.navbar {
+    background: var(--card-bg);
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+.logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.nav-link {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    cursor: pointer;
+}
+.nav-link:hover {
+    background: var(--accent-light);
+    color: var(--primary-color);
+}
+.nav-link.active {
+    background: var(--primary-color);
+    color: white;
+}
+.theme-btn {
+    border: none;
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+.theme-btn:hover {
+    background: var(--primary-dark);
+}
+.section {
+    padding: 2rem 0;
+    display: none;
+    min-height: calc(100vh - 80px);
+}
+.section.active {
+    display: block;
+}
+.banner-container {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.main-banner {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.club-description {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
+}
+.club-description p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--text-color);
+}
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+.social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.social-btn.telegram {
+    background: linear-gradient(135deg, #0088cc, #00a8ff);
+    color: white;
+}
+.social-btn.twitch {
+    background: linear-gradient(135deg, #9146ff, #6441a4);
+    color: white;
+}
+.social-btn.lichess {
+    background: linear-gradient(135deg, #000000, #333333);
+    color: white;
+}
+.social-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+.bot-section {
+    margin: 3rem 0;
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
+}
+.bot-container {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+.bot-avatar {
+    position: relative;
+    flex-shrink: 0;
+}
+.bot-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid var(--primary-color);
+    animation: bot-float 3s ease-in-out infinite;
+}
+.bot-glow {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+    opacity: 0.3;
+    animation: bot-pulse 2s ease-in-out infinite;
+}
+@keyframes bot-float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+@keyframes bot-pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+}
+.bot-info h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+.bot-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+}
+.bot-info li {
+    padding: 0.5rem 0;
+    font-size: 1.1rem;
+}
+.bot-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+.bot-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.bot-btn.tg {
+    background: linear-gradient(135deg, #480072, #8C00FF);
+    color: white;
+}
+.bot-btn.lc {
+    background: linear-gradient(135deg, #480072, #8C00FF);
+    color: white;
+}
+.bot-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(180,136,204,0.4);
+}
+.instructions-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+.instruction-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
+}
+.instruction-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+.instruction-card ul {
+    list-style: none;
+    padding-left: 0;
+}
+.instruction-card li {
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    position: relative;
+    font-size: 1rem;
+}
+.instruction-card li::before {
+    content: '•';
+    color: var(--primary-color);
+    position: absolute;
+    left: 0;
+}
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+.top-players-section h2 {
+    margin-top: 2rem;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+.top-players-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.top-player {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+}
+.top-player:hover {
+    transform: translateY(-2px);
+}
+.rank-badge {
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    flex-shrink: 0;
+}
+.diamond {
+    background: linear-gradient(135deg, #b9f2ff, #e0ffff);
+    color: #003d5c !important;
+}
+.diamond .rank-badge {
+    background: linear-gradient(135deg, #00bcd4, #0097a7);
+}
+.platinum {
+    background: linear-gradient(135deg, #e5e4e2, #f5f5f5);
+    color: #333 !important;
+}
+.platinum .rank-badge {
+    background: linear-gradient(135deg, #9e9e9e, #757575);
+}
+.gold {
+    background: linear-gradient(135deg, #ffd700, #ffec8b);
+    color: #664d00 !important;
+}
+.gold .rank-badge {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+}
+.silver {
+    background: linear-gradient(135deg, #c0c0c0, #dcdcdc);
+    color: #333 !important;
+}
+.silver .rank-badge {
+    background: linear-gradient(135deg, #607d8b, #455a64);
+}
+.bronze {
+    background: linear-gradient(135deg, #cd7f32, #dca57d);
+    color: #5d3a1a !important;
+}
+.bronze .rank-badge {
+    background: linear-gradient(135deg, #8d6e63, #5d4037);
+}
+.player-info {
+    flex: 1;
+}
+.player-name-section {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+.player-title {
+    font-weight: 700;
+    color: var(--primary-color);
+    background: rgba(155, 0, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+.player-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.level-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+.level-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.experience-bar {
+    flex: 1;
+    height: 8px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 0.5rem;
+}
+.experience-fill {
+    height: 100%;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+.experience-value {
+    font-size: 0.8rem;
+    color: #666;
+}
+.ratings {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+.rating-item {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+.rating-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 0.5rem;
+}
+.rating-icon.bullet {
+    background-image: url('img/bullet.png');
+}
+.rating-icon.blitz {
+    background-image: url('img/blitz.png');
+}
+.rating-icon.rapid {
+    background-image: url('img/rapid.png');
+}
+.rating-icon.classic {
+    background-image: url('img/classic.png');
+}
+.rating-value {
+    font-weight: 600;
+    color: #666;
+}
+.first-tournament {
+    font-size: 0.9rem;
+    color: #444;
+}
+.first-date {
+    color: #444;
+}
+.players-table-section {
+    margin-top: 3rem;
+}
+.players-table-section h2 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+.table-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+.search-box {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+}
+.search-box i {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+.search-input {
+    padding: 0.5rem 0.5rem 0.5rem 2.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    width: 100%;
+}
+.sort-select {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+.table-container {
+    overflow-x: auto;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.players-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.players-table th,
+.players-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+.players-table th {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+}
+.players-table tbody tr:hover {
+    background: var(--accent-light);
+}
+.players-table tbody tr:nth-child(even) {
+    background: rgba(0,0,0,0.02);
+}
+.player-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+.player-link:hover {
+    text-decoration: underline;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.page-btn {
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+.page-btn:hover:not(:disabled) {
+    background: var(--primary-dark);
+}
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.admin-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+.admin-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+.admin-avatar img {
+    width: 120px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.admin-info {
+    flex: 1;
+}
+.admin-info h3 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+.admin-role {
+    color: var(--primary-light);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.admin-ratings,
+.admin-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+.rating-link,
+.contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.8rem;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+.rating-link.fide {
+    background: #1976d2;
+    color: white;
+}
+.rating-link.ruchess {
+    background: #d32f2f;
+    color: white;
+}
+.rating-link.lichess {
+    background: #000;
+    color: white;
+}
+.contact-link.telegram {
+    background: #0088cc;
+    color: white;
+}
+.rating-link:hover,
+.contact-link:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.admin-bio {
+    margin: 1rem 0;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 5;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+}
+.modal-content {
+    background: var(--card-bg);
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.modal-player-info h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+.modal-level-info {
+    margin: 1rem 0;
+}
+.modal-ratings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+.modal-rating-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(155, 0, 255, 0.1);
+    border-radius: 6px;
+}
+.modal-links {
+    margin-top: 1rem;
+}
+.modal-epic-effects {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 6;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+.modal-epic-effects.level-20 {
+    opacity: 1;
+}
+.modal-epic-effects.level-20::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    background: 
+        radial-gradient(ellipse at 25% 25%, var(--epic-color, var(--primary-color)) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 25%, var(--epic-color, var(--primary-color)) 0%, transparent 50%),
+        radial-gradient(ellipse at 25% 75%, var(--epic-color, var(--primary-color)) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 75%, var(--epic-color, var(--primary-color)) 0%, transparent 50%);
+    transform: translate(-50%, -50%) rotate(0deg);
+    animation: epic-tentacles 4s linear infinite;
+    opacity: 0.3;
+}
+@keyframes epic-tentacles {
+    0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+    25% { transform: translate(-50%, -50%) rotate(90deg) scale(1.2); }
+    50% { transform: translate(-50%, -50%) rotate(180deg) scale(0.8); }
+    75% { transform: translate(-50%, -50%) rotate(270deg) scale(1.3); }
+    100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); }
+}
+.modal-epic-effects.level-20::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: epic-stars 8s linear infinite;
+}
+@keyframes epic-stars {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-200px); }
+}
+.modal-content {
+    position: relative;
+    background: var(--card-bg);
+    margin: 2.5% auto;
+    padding: 0;
+    border-radius: 25px;
+    width: 95%;
+    max-width: 600px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    overflow: hidden;
+    z-index: 7;
+}
+.modal-content.frame-basic {
+    border: 3px solid var(--primary-color);
+    box-shadow: 
+        0 0 20px rgba(155, 0, 255, 0.5),
+        0 10px 30px rgba(0,0,0,0.3);
+}
+.modal-content.frame-colored {
+    border: 4px solid var(--frame-color, var(--primary-color));
+    box-shadow: 
+        0 0 30px var(--frame-color, var(--primary-color)),
+        0 0 60px rgba(155, 0, 255, 0.3),
+        0 10px 30px rgba(0,0,0,0.3);
+    animation: frame-pulse 2s ease-in-out infinite;
+}
+@keyframes frame-pulse {
+    0%, 100% { 
+        box-shadow: 
+            0 0 30px var(--frame-color, var(--primary-color)),
+            0 0 60px rgba(155, 0, 255, 0.3),
+            0 10px 30px rgba(0,0,0,0.3);
+    }
+    50% { 
+        box-shadow: 
+            0 0 50px var(--frame-color, var(--primary-color)),
+            0 0 100px rgba(155, 0, 255, 0.5),
+            0 15px 40px rgba(0,0,0,0.4);
+    }
+}
+.modal-content.frame-epic {
+    border: 6px solid var(--frame-color, var(--primary-color));
+    box-shadow: 
+        0 0 50px var(--frame-color, var(--primary-color)),
+        0 0 100px rgba(155, 0, 255, 0.6),
+        0 0 200px rgba(155, 0, 255, 0.3),
+        0 20px 60px rgba(0,0,0,0.5);
+    animation: frame-epic 3s ease-in-out infinite;
+}
+@keyframes frame-epic {
+    0%, 100% { 
+        transform: scale(1);
+        filter: brightness(1) saturate(1);
+    }
+    33% { 
+        transform: scale(1.05);
+        filter: brightness(1.2) saturate(1.3);
+    }
+    66% { 
+        transform: scale(0.98);
+        filter: brightness(0.9) saturate(0.8);
+    }
+}
+.modal-player-profile {
+    position: relative;
+}
+.modal-player-banner {
+    position: relative;
+    z-index: 9;
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 16px 16px 0 0;
+}
+.modal-player-avatar {
+    position: absolute;
+    z-index: 10;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid var(--card-bg);
+    object-fit: cover;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.modal-player-info {
+    padding: 3rem 2rem 2rem;
+    text-align: center;
+}
+.modal-player-title {
+    font-weight: 700;
+    color: var(--primary-color);
+    background: rgba(155, 0, 255, 0.1);
+    position: relative;
+    top: -4px;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+.modal-player-name {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+.modal-level-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+.modal-ratings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+.modal-rating-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: rgba(155, 0, 255, 0.1);
+    border-radius: 8px;
+}
+.close {
+    position: absolute;
+    z-index: 11;
+    top: 12px;
+    right: 27px;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.close:hover {
+    color: var(--primary-color);
+}
+.lichess-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.lichess-link:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .instructions-section {
+        grid-template-columns: 1fr;
+    }
+    .nav-menu {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .social-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    .bot-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    .admin-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    .admin-avatar img {
+        width: 100px;
+        height: 133px;
+    }
+    .welcome-title {
+        font-size: 2rem;
+    }
+    .top-player {
+        flex-direction: column;
+        text-align: center;
+    }
+    .ratings {
+        justify-content: center;
+    }
+    .bot-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .bot-image {
+        width: 100px;
+        height: 100px;
+    }
+}
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+    .admin-cards {
+        grid-template-columns: 1fr;
+    }
+    .table-controls {
+        flex-direction: column;
+    }
+    .welcome-title {
+        font-size: 1.5rem;
+    }
+    .top-player {
+        padding: 1rem;
+    }
+}
+</style>
 </head>
+
 <body>
     <nav class="navbar">
         <div class="nav-container">
@@ -26,7 +1009,6 @@
     </nav>
 
     <main>
-        <!-- Главная страница -->
         <section id="home" class="section active">
             <div class="container">
                 <div class="banner-container">
@@ -78,7 +1060,6 @@
             </div>
         </section>
 
-        <!-- Страница статистики -->
         <section id="statistics" class="section">
             <div class="container">
                 <h1>Статистика команды</h1>
@@ -318,7 +1299,7 @@
                                 </tr>
                             </thead>
                             <tbody id="playersTableBody">
-                                <!-- Данные будут загружены JS -->
+                                <!-- данные -->
                             </tbody>
                         </table>
                     </div>
@@ -332,7 +1313,6 @@
             </div>
         </section>
 
-        <!-- Страница администраторов -->
         <section id="admins" class="section">
             <div class="container">
                 <h1>Администраторы клуба</h1>
@@ -406,20 +1386,676 @@
         </section>
     </main>
 
-    <!-- Модальное окно профиля игрока -->
     <div id="playerModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <div id="modalContent">
-                <!-- Содержимое загружается динамически -->
+                <!-- данные -->
             </div>
         </div>
     </div>
 
-    <script>
-        // Переменная для токена (будет установлена через GitHub Actions)
-        window.LICHESS_API_TOKEN = window.LICHESS_API_TOKEN || '';
-    </script>
-    <script src="app.js"></script>
+<script>
+window.LICHESS_API_TOKEN = window.LICHESS_API_TOKEN || '';
+
+const BASE_EXPERIENCE = 50;
+const LEVEL_MULTIPLIER = 1.4;
+
+let allPlayerData = [];
+let currentPage = 1;
+const playersPerPage = 10;
+const teamName = 'unicorn7love-fun-club';
+
+const LICHESS_TOKEN = window.LICHESS_API_TOKEN || '';
+
+const GITHUB_OWNER = 'toxicmarquis';
+const GITHUB_REPO = 'uni7club';
+const TOURNAMENTS_FOLDER = 'tournaments';
+const USER_DATA_FOLDER = 'user';
+const TITLE_DATABASE = {
+    "Unicorn7Love": "IM",
+    "ModerMark": "AIM",
+    "Tom_and_Jerry2024": "AFM"
+};
+
+function initTheme() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) return;
+    
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon();
+    
+    themeToggle.addEventListener('click', switchTheme);
+}
+
+function switchTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon();
+}
+
+function updateThemeIcon() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) return;
+    
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+}
+
+function initNavigation() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            const targetId = link.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            navLinks.forEach(navLink => navLink.classList.remove('active'));
+            link.classList.add('active');
+        });
+    });
+}
+
+async function getTournamentFiles() {
+    try {
+        const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${TOURNAMENTS_FOLDER}`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const files = await response.json();
+
+        const csvFiles = files
+            .filter(file => 
+                file.type === 'file' && 
+                file.name.startsWith('lichess_tournament_') && 
+                file.name.endsWith('.csv')
+            )
+            .map(file => ({
+                name: file.name,
+                downloadUrl: file.download_url
+            }));
+
+        console.log('Найдены CSV файлы:', csvFiles);
+        return csvFiles;
+
+    } catch (error) {
+        console.error('Ошибка при получении списка файлов:', error);
+        return [{
+            name: 'lichess_tournament_2025.06.26_eeO2WrZ0_lichess-liga-5b.csv',
+            downloadUrl: `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${TOURNAMENTS_FOLDER}/lichess_tournament_2025.06.26_eeO2WrZ0_lichess-liga-5b.csv`
+        }];
+    }
+}
+
+async function loadCSV(fileInfo) {
+    try {
+        const response = await fetch(fileInfo.downloadUrl);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const text = await response.text();
+        const lines = text.trim().split('\n');
+        const headers = lines[0].split(',').map(h => h.trim());
+
+        const data = [];
+        for (let i = 1; i < lines.length; i++) {
+            const values = lines[i].split(',');
+            const row = {};
+            headers.forEach((header, index) => {
+                row[header] = values[index] ? values[index].trim() : '';
+            });
+            data.push(row);
+        }
+
+        const dateMatch = fileInfo.name.match(/(\d{4})\.(\d{2})\.(\d{2})/);
+        const leagueMatch = fileInfo.name.match(/liga-(\d+[a-z]?)/i);
+
+        const tournamentDate = dateMatch ? 
+            `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]}` : 
+            new Date().toISOString().split('T')[0];
+
+        const league = leagueMatch ? leagueMatch[1] : 'unknown';
+
+        data.forEach(row => {
+            row.tournament_date = tournamentDate;
+            row.league = league;
+            row.filename = fileInfo.name;
+        });
+
+        console.log(`Загружен файл ${fileInfo.name}: ${data.length} записей`);
+        return data;
+
+    } catch (error) {
+        console.error('Ошибка при загрузке файла:', fileInfo.name, error);
+        return [];
+    }
+}
+
+async function loadUserData(username) {
+  const fileLocal = `user/${username.toLowerCase()}.json`;
+  const fileRaw   = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${USER_DATA_FOLDER}/${username.toLowerCase()}.json`;
+
+  try {
+    let res = await fetch(fileLocal, {cache:'no-store'});
+    if (res.ok) return await res.json();
+    res = await fetch(fileRaw, {cache:'no-store'});
+    if (res.ok) return await res.json();
+  } catch (e) {
+    console.warn('loadUserData:', e);
+  }
+  return null;
+}
+
+function calculateLevel(totalScore, attendanceCount, avgPerformance) {
+    const experience = totalScore * 10 + attendanceCount * 25 + Math.floor(avgPerformance / 100);
+
+    let level = 0;
+    let requiredExp = BASE_EXPERIENCE;
+    let totalRequiredExp = 0;
+
+    while (experience >= totalRequiredExp + requiredExp) {
+        totalRequiredExp += requiredExp;
+        level++;
+        requiredExp = Math.floor(BASE_EXPERIENCE * Math.pow(LEVEL_MULTIPLIER, level));
+    }
+
+    const currentLevelExp = experience - totalRequiredExp;
+    const nextLevelExp = requiredExp;
+    const progressPercent = Math.floor((currentLevelExp / nextLevelExp) * 100);
+
+    return {
+        level,
+        experience,
+        currentLevelExp,
+        nextLevelExp,
+        progressPercent
+    };
+}
+
+function getFrameType(level) {
+    if (level >= 20) return 'epic';
+    if (level >= 15) return 'colored';
+    if (level >= 10) return 'basic';
+    return 'none';
+}
+
+async function getPlayerTitle(username) {
+    if (TITLE_DATABASE.hasOwnProperty(username)) {
+        return TITLE_DATABASE[username];
+    }
+
+    try {
+        const headers = {};
+        if (LICHESS_TOKEN) {
+            headers['Authorization'] = `Bearer ${LICHESS_TOKEN}`;
+        }
+
+        const response = await fetch(`https://lichess.org/api/user/${username}`, { headers });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data.title || null;
+        }
+    } catch (error) {
+        console.error('Ошибка при получении титула:', error);
+    }
+
+    return null;
+}
+
+async function getPlayerRatings(username) {
+    try {
+        const headers = {};
+        if (LICHESS_TOKEN) {
+            headers['Authorization'] = `Bearer ${LICHESS_TOKEN}`;
+        }
+
+        const response = await fetch(`https://lichess.org/api/user/${username}`, { headers });
+
+        if (response.ok) {
+            const data = await response.json();
+            return {
+                bullet: data.perfs?.bullet?.rating || '-',
+                blitz: data.perfs?.blitz?.rating || '-',
+                rapid: data.perfs?.rapid?.rating || '-',
+                classical: data.perfs?.classical?.rating || '-'
+            };
+        }
+    } catch (error) {
+        console.error('Ошибка при получении рейтингов:', error);
+    }
+
+    return {
+        bullet: '-',
+        blitz: '-',
+        rapid: '-',
+        classical: '-'
+    };
+}
+
+function aggregatePlayerData(rawData) {
+    const playerStats = {};
+
+    rawData.forEach(row => {
+        if (row.Team !== teamName) return;
+
+        const username = row.Username;
+        if (!playerStats[username]) {
+            playerStats[username] = {
+                username: username,
+                scores: [],
+                performances: [],
+                ratings: [],
+                tournaments: [],
+                leagues: [],
+                total_score: 0,
+                tournaments_count: 0
+            };
+        }
+
+        const player = playerStats[username];
+        const score = parseInt(row.Score) || 0;
+        const performance = parseFloat(row.Performance) || 0;
+        const rating = parseInt(row.Rating) || 0;
+
+        player.scores.push(score);
+        player.total_score += score;
+        player.tournaments.push(row.tournament_date);
+        player.leagues.push(row.league);
+        player.tournaments_count++;
+
+        if (performance > 0) {
+            player.performances.push(performance);
+        }
+
+        if (rating > 0) {
+            player.ratings.push(rating);
+        }
+    });
+
+    const result = Object.values(playerStats).map(player => {
+        const avgPerformance = player.performances.length > 0 
+            ? Math.round(player.performances.reduce((a, b) => a + b, 0) / player.performances.length)
+            : 0;
+
+        const maxPerformance = player.performances.length > 0 
+            ? Math.max(...player.performances) 
+            : 0;
+
+        const avgRating = player.ratings.length > 0
+            ? Math.round(player.ratings.reduce((a, b) => a + b, 0) / player.ratings.length)
+            : 0;
+
+        const maxRating = player.ratings.length > 0
+            ? Math.max(...player.ratings)
+            : 0;
+
+        const maxScore = player.scores.length > 0
+            ? Math.max(...player.scores)
+            : 0;
+
+        const firstTournament = player.tournaments.length > 0
+            ? player.tournaments.sort()[0]
+            : '-';
+
+        const utilityCoefficient = player.total_score * 1000000 + player.tournaments_count * 1000 + avgPerformance;
+        const levelInfo = calculateLevel(player.total_score, player.tournaments_count, avgPerformance);
+
+        return {
+            ...player,
+            avg_performance: avgPerformance,
+            max_performance: maxPerformance,
+            avg_rating: avgRating,
+            max_rating: maxRating,
+            max_score: maxScore,
+            first_tournament: firstTournament,
+            utility_coefficient: utilityCoefficient,
+            ...levelInfo
+        };
+    });
+
+    return result;
+}
+
+function sortPlayersForTop5(players) {
+    return players.sort((a, b) => {
+        if (b.total_score !== a.total_score) {
+            return b.total_score - a.total_score;
+        }
+        if (b.tournaments_count !== a.tournaments_count) {
+            return b.tournaments_count - a.tournaments_count;
+        }
+        return b.avg_performance - a.avg_performance;
+    });
+}
+
+async function renderTop5Players(players) {
+    const sortedPlayers = sortPlayersForTop5([...players]);
+    const top5 = sortedPlayers.slice(0, 5);
+
+    for (let i = 0; i < top5.length; i++) {
+        const player = top5[i];
+        const rankElement = document.querySelector(`.top-player[data-rank="${i + 1}"]`);
+
+        if (rankElement) {
+            const title = await getPlayerTitle(player.username);
+            const ratings = await getPlayerRatings(player.username);
+
+            const titleElement = rankElement.querySelector('.player-title');
+            const nameElement = rankElement.querySelector('.player-name');
+            const levelElement = rankElement.querySelector('.level-number');
+            const expFillElement = rankElement.querySelector('.experience-fill');
+            const expValueElement = rankElement.querySelector('.experience-value');
+            const ratingElements = rankElement.querySelectorAll('.rating-value');
+            const firstDateElement = rankElement.querySelector('.first-date');
+
+            if (titleElement && title) {
+                titleElement.textContent = title;
+                titleElement.style.display = 'inline-block';
+            } else if (titleElement) {
+                titleElement.style.display = 'none';
+            }
+
+            if (nameElement) nameElement.textContent = player.username;
+            if (levelElement) levelElement.textContent = player.level;
+            if (expFillElement) expFillElement.style.width = `${player.progressPercent}%`;
+            if (expValueElement) expValueElement.textContent = `${player.progressPercent}%`;
+            if (firstDateElement) firstDateElement.textContent = player.first_tournament;
+
+            if (ratingElements.length >= 4) {
+                ratingElements[0].textContent = ratings.bullet;
+                ratingElements[1].textContent = ratings.blitz;
+                ratingElements[2].textContent = ratings.rapid;
+                ratingElements[3].textContent = ratings.classical;
+            }
+        }
+    }
+}
+
+function renderPlayersTable(players, page = 1) {
+    const sortSelect = document.getElementById('sortSelect');
+    const playerSearch = document.getElementById('playerSearch');
+
+    if (!sortSelect || !playerSearch) return;
+
+    const sortValue = sortSelect.value;
+    const searchValue = playerSearch.value.toLowerCase();
+
+    let filteredPlayers = players.filter(player => 
+        player.username.toLowerCase().includes(searchValue)
+    );
+
+    filteredPlayers.sort((a, b) => {
+        switch (sortValue) {
+            case 'avg_performance':
+                return b.avg_performance - a.avg_performance;
+            case 'tournaments_count':
+                return b.tournaments_count - a.tournaments_count;
+            default:
+                return b.utility_coefficient - a.utility_coefficient;
+        }
+    });
+
+    const startIndex = (page - 1) * playersPerPage;
+    const endIndex = startIndex + playersPerPage;
+    const playersToShow = filteredPlayers.slice(startIndex, endIndex);
+
+    const tbody = document.getElementById('playersTableBody');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+
+    playersToShow.forEach(player => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td><a href="#" class="player-link" data-username="${player.username}">${player.username}</a></td>
+            <td>${player.total_score}</td>
+            <td>${player.max_performance}</td>
+            <td>${player.avg_performance}</td>
+            <td>${player.avg_rating}</td>
+            <td>${player.tournaments_count}</td>
+            <td>${player.first_tournament}</td>
+        `;
+        tbody.appendChild(row);
+    });
+
+    const totalPages = Math.ceil(filteredPlayers.length / playersPerPage);
+    const pageInfo = document.getElementById('pageInfo');
+    if (pageInfo) {
+        pageInfo.textContent = `Страница ${page} из ${totalPages}`;
+    }
+
+    const prevPage = document.getElementById('prevPage');
+    const nextPage = document.getElementById('nextPage');
+    if (prevPage) prevPage.disabled = page <= 1;
+    if (nextPage) nextPage.disabled = page >= totalPages;
+
+    currentPage = page;
+
+    document.querySelectorAll('.player-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const username = e.target.getAttribute('data-username');
+            showPlayerModal(username);
+        });
+    });
+}
+
+async function showPlayerModal(username) {
+    const modal = document.getElementById('playerModal');
+    const modalContent = document.getElementById('modalContent');
+    const modalWrapper = document.getElementById('modalContentWrapper');
+    const epicEffects = document.getElementById('modalEpicEffects');
+
+    if (!modal || !modalContent) return;
+
+    modalContent.innerHTML = '<p style="padding: 2rem; text-align: center;">Загрузка профиля игрока...</p>';
+    modal.style.display = 'block';
+
+    try {
+        const player = allPlayerData.find(p => p.username === username);
+        if (!player) {
+            throw new Error('Игрок не найден');
+        }
+        const userData = await loadUserData(username);
+        const title = await getPlayerTitle(username);
+        const ratings = await getPlayerRatings(username);
+        const frameType = getFrameType(player.level);
+
+        if (userData?.color_frame) {
+            document.documentElement.style.setProperty('--frame-color', userData.color_frame);
+            document.documentElement.style.setProperty('--epic-color', userData.color_frame);
+        }
+
+        const profileHTML = `
+            ${frameType === "epic" ? ` <div id="modalEpicEffects" class="modal-epic-effects level-20"></div> ` : ''}
+            <div id="modalContentWrapper" class="modal-content frame-${frameType}">
+                <div class="modal-player-profile">
+                    ${userData?.banner ? `
+                        <img src="${userData.banner}" alt="Баннер ${player.username}" class="modal-player-banner">
+                    ` : `
+                        <div class="modal-player-banner" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); height: 150px;"></div>
+                    `}
+                
+                    ${userData?.avatar ? `
+                        <img src="${userData.avatar}" alt="Аватар ${player.username}" class="modal-player-avatar">
+                    ` : `
+                        <div class="modal-player-avatar" style="background: var(--card-bg); display: flex; align-items: center; justify-content: center; font-size: 2rem; width: 100px; height: 100px; border-radius: 50%; position: absolute; top: 100px; left: 50%; transform: translateX(-50%); border: 4px solid var(--card-bg);">
+                            ${player.username.charAt(0).toUpperCase()}
+                        </div>
+                    `}
+                
+                    <div class="modal-player-info">
+                        <h2 class="modal-player-name">
+                            ${title ? ` <span class="modal-player-title">${title}</span> ` : ''}
+                            ${player.username}
+                        </h2>
+                    
+                        <div class="modal-level-display">
+                            <span class="level-text">Уровень ${player.level}</span>
+                            <div class="experience-bar">
+                                <div class="experience-fill" style="width: ${player.progressPercent}%;"></div>
+                            </div>
+                            <span class="experience-value">${player.currentLevelExp} / ${player.nextLevelExp}</span>
+                        </div>
+
+                        <div class="modal-ratings-grid">
+                            <div class="modal-rating-item">
+                                <span class="rating-icon bullet"></span>
+                                <span>Bullet: ${ratings.bullet}</span>
+                            </div>
+                            <div class="modal-rating-item">
+                                <span class="rating-icon blitz"></span>
+                                <span>Blitz: ${ratings.blitz}</span>
+                            </div>
+                            <div class="modal-rating-item">
+                                <span class="rating-icon rapid"></span>
+                                <span>Rapid: ${ratings.rapid}</span>
+                            </div>
+                            <div class="modal-rating-item">
+                                <span class="rating-icon classic"></span>
+                                <span>Classic: ${ratings.classical}</span>
+                            </div>
+                        </div>
+
+                        <div style="margin: 1.5rem 0;">
+                            <p><strong>Первый турнир:</strong> ${player.first_tournament}</p>
+                            <p><strong>Всего турниров:</strong> ${player.tournaments_count}</p>
+                            <p><strong>Средний перформанс:</strong> ${player.avg_performance}</p>
+                        </div>
+
+                        <div class="modal-links">
+                            <a href="https://lichess.org/@/${player.username}" target="_blank" class="lichess-link">
+                                <i class="fas fa-external-link-alt"></i> Открыть профиль на Lichess
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        modalContent.innerHTML = profileHTML;
+
+    } catch (error) {
+        modalContent.innerHTML = `
+            <div style="padding: 2rem; text-align: center;">
+                <h2>${username}</h2>
+                <p>Не удалось загрузить профиль игрока.</p>
+                <a href="https://lichess.org/@/${username}" target="_blank" class="lichess-link">
+                    <i class="fas fa-external-link-alt"></i> Открыть профиль на Lichess
+                </a>
+            </div>
+        `;
+    }
+}
+
+async function initApp() {
+    try {
+        console.log('Инициализация приложения...');
+
+        const tournamentFiles = await getTournamentFiles();
+        console.log('Найдены файлы турниров:', tournamentFiles);
+
+        const allRawData = [];
+        for (const fileInfo of tournamentFiles) {
+            const data = await loadCSV(fileInfo);
+            allRawData.push(...data);
+        }
+
+        console.log('Загружено записей:', allRawData.length);
+
+        allPlayerData = aggregatePlayerData(allRawData);
+        console.log('Обработано игроков:', allPlayerData.length);
+
+        await renderTop5Players(allPlayerData);
+        renderPlayersTable(allPlayerData);
+        await initLiveGame();
+
+        console.log('Инициализация завершена');
+
+    } catch (error) {
+        console.error('Ошибка при инициализации:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    initNavigation();
+    initApp();
+
+    const playerSearch = document.getElementById('playerSearch');
+    if (playerSearch) {
+        playerSearch.addEventListener('input', () => {
+            renderPlayersTable(allPlayerData, 1);
+        });
+    }
+
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+            renderPlayersTable(allPlayerData, 1);
+        });
+    }
+
+    const prevPage = document.getElementById('prevPage');
+    if (prevPage) {
+        prevPage.addEventListener('click', () => {
+            if (currentPage > 1) {
+                renderPlayersTable(allPlayerData, currentPage - 1);
+            }
+        });
+    }
+
+    const nextPage = document.getElementById('nextPage');
+    if (nextPage) {
+        nextPage.addEventListener('click', () => {
+            const totalPages = Math.ceil(allPlayerData.length / playersPerPage);
+            if (currentPage < totalPages) {
+                renderPlayersTable(allPlayerData, currentPage + 1);
+            }
+        });
+    }
+
+    const closeButton = document.querySelector('.close');
+    if (closeButton) {
+        closeButton.addEventListener('click', () => {
+            const modal = document.getElementById('playerModal');
+            const epicEffects = document.getElementById('modalEpicEffects');
+            const modalWrapper = document.getElementById('modalContentWrapper');
+
+            if (modal) modal.style.display = 'none';
+            if (epicEffects) epicEffects.className = 'modal-epic-effects';
+            if (modalWrapper) modalWrapper.className = 'modal-content';
+
+            document.documentElement.style.removeProperty('--frame-color');
+            document.documentElement.style.removeProperty('--epic-color');
+        });
+    }
+
+    window.addEventListener('click', (e) => {
+        const modal = document.getElementById('playerModal');
+        if (modal && e.target === modal) {
+            closeButton.click();
+        }
+    });
+});
+</script>
 </body>
 </html>
